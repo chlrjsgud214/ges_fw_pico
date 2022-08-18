@@ -635,7 +635,7 @@ void TP_gesvallist(void)
     GUI_DrawLine(0,50,320,50,BLACK,0,1);
     GUI_DisString_EN(5,15,"BACK",&Font16,GBLUE,BLACK);
     GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
-    GUI_DisString_EN(70,15,"RESULT LIST",&Font20,GBLUE,BLACK); //시간
+    GUI_DisString_EN(80,15,"RESULT LIST",&Font20,GBLUE,BLACK); //시간
     
     GUI_DrawRectangle(0, 50, 320, 90, GRAY, DRAW_FULL, DOT_PIXEL_1X1); //측정 기록 바
     GUI_DisString_EN(15,65,"TIME",&Font16,GRAY,WHITE);
@@ -764,28 +764,31 @@ void TP_DrawBoard(void)
         if (sTP_Draw.Xpoint < sLCD_DIS.LCD_Dis_Column &&
             //Dete/rmine whether the law is legal
             sTP_Draw.Ypoint < sLCD_DIS.LCD_Dis_Page) {
-                if ((sTP_Draw.Xpoint < 50 &&
-					sTP_Draw.Ypoint < 50) && (pagestatus>=1)) {
+                if (((sTP_Draw.Xpoint > 0 && sTP_Draw.Xpoint < 50 ) &&  //180 , 70, 300, 130  메인페이지
+				    (sTP_Draw.Ypoint  > 0 && sTP_Draw.Ypoint < 50)) && (pagestatus==1)){ 
                     TP_gesmain();
                     pagestatus=0;
                         
-                    }else if((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  //180 , 70, 300, 130  측정기록
-					        (sTP_Draw.Ypoint  < 130 && sTP_Draw.Ypoint > 70) && (pagestatus==0)){ 
+                    }else if(((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  //180 , 70, 300, 130  측정기록
+					        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 130)) && (pagestatus==0)){ 
                             TP_gesvallist();
                             pagestatus=1;
 
-                    }else if((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 140 ) &&  //20, 70, 140, 130 측정시작
-					        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 140) && (pagestatus==0)){
+                    }else if(((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 140 ) &&  //20, 70, 140, 130 측정시작
+					        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 140)) && (pagestatus==0)){
                             TP_gesmpresultstart();
                             pagestatus=1;
-                    }else if((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 140 ) &&  //20, 155, 140, 215 센서
-					        (sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215) && (pagestatus==0)){
+                    }else if(((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 140 ) &&  //20, 155, 140, 215 센서
+					        (sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215) )&& (pagestatus==0)){
                             TP_gessensor();
                             pagestatus=1;
-                    }else if((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  //180, 155, 300, 215 셋팅
-					        (sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215) && (pagestatus==0)){
+                    }else if(((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  //180, 155, 300, 215 셋팅
+					        (sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215)) && (pagestatus==0)){
                             TP_gessetting();
                             pagestatus=1;
+                            }else
+                            {
+
                             }
 			//  if(LCD_2_8 == id){
 				
