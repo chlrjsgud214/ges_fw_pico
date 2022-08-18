@@ -1,2 +1,0 @@
-D:/tools/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-ar.exe qc libfont.a CMakeFiles/font.dir/font12.c.obj CMakeFiles/font.dir/font16.c.obj CMakeFiles/font.dir/font20.c.obj CMakeFiles/font.dir/font24.c.obj CMakeFiles/font.dir/font8.c.obj
-D:/tools/mingw32/bin/ranlib.exe libfont.a
