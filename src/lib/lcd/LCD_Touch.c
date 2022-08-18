@@ -787,9 +787,9 @@ void TP_DrawBoard(void)
                             TP_gessetting();
                             pagestatus=1;
                             }else
-                            {
+                            { 
 
-                            }
+                            } 
 			//  if(LCD_2_8 == id){
 				
 			// 	if (sTP_Draw.Xpoint > (sLCD_DIS.LCD_Dis_Column - 60) &&
