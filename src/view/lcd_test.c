@@ -39,7 +39,7 @@
 
 int lcd_test(void)
 {
-	uint8_t counter = 0;
+	//uint8_t counter = 0;
    	
 	System_Init();
 	SD_Init();
@@ -48,15 +48,14 @@ int lcd_test(void)
 	LCD_Init(lcd_scan_dir,800);
 	TP_Init(lcd_scan_dir);
 	// GUI_Show();	
-	LCD_SCAN_DIR bmp_scan_dir = D2U_L2R;
-	LCD_Show_bmp(bmp_scan_dir,lcd_scan_dir);
-	
+	LCD_SCAN_DIR bmp_scan_dir = SCAN_DIR_DFT;
+	LCD_Show_bmp(bmp_scan_dir,lcd_scan_dir);	
 	TP_GetAdFac(); // 터치 캘리브레이션
 	//TP_Dialog();
 	TP_gesmain();
-	Driver_Delay_ms(50);
-	while(1){
-		
+	// TP_gesvallist();
+	//Driver_Delay_ms(50);
+	while(1){		
 		TP_DrawBoard();
 	}
 	return 0;

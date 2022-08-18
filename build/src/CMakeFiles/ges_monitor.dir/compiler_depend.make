@@ -3635,6 +3635,86 @@ src/CMakeFiles/ges_monitor.dir/lib/sdcard/MMC_SD.c.obj: C:/gitprj/ges_monitor/sr
   C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/stdio.h \
   C:/gitprj/ges_monitor/src/lib/sdcard/MMC_SD.h
 
+src/CMakeFiles/ges_monitor.dir/main.c.obj: C:/gitprj/ges_monitor/src/main.c \
+  C:/gitprj/ges_monitor/src/view/main.h \
+  C:/gitprj/ges_monitor/src/lib/config/DEV_Config.h \
+  C:/pico/pico-sdk/src/common/pico_stdlib/include/pico/stdlib.h \
+  C:/pico/pico-sdk/src/common/pico_base/include/pico.h \
+  C:/pico/pico-sdk/src/common/pico_base/include/pico/types.h \
+  C:/pico/pico-sdk/src/common/pico_base/include/pico/assert.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include/stdbool.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/assert.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/_ansi.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/newlib.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/_newlib_version.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/config.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/machine/ieeefp.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/features.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include/stdint.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/stdint.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/machine/_default_types.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/_intsup.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/_stdint.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include/stddef.h \
+  generated/pico_base/pico/version.h \
+  C:/pico/pico-sdk/src/common/pico_base/include/pico/config.h \
+  generated/pico_base/pico/config_autogen.h \
+  C:/pico/pico-sdk/src/boards/include/boards/pico.h \
+  C:/pico/pico-sdk/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h \
+  C:/pico/pico-sdk/src/rp2_common/pico_platform/include/pico/platform.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/platform_defs.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/addressmap.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/sio.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/cdefs.h \
+  C:/pico/pico-sdk/src/common/pico_base/include/pico/types.h \
+  C:/pico/pico-sdk/src/common/pico_base/include/pico/error.h \
+  C:/pico/pico-sdk/src/rp2_common/pico_stdio/include/pico/stdio.h \
+  C:/pico/pico-sdk/src/common/pico_time/include/pico/time.h \
+  C:/pico/pico-sdk/src/rp2_common/hardware_timer/include/hardware/timer.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/timer.h \
+  C:/pico/pico-sdk/src/rp2_common/hardware_base/include/hardware/address_mapped.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/timer.h \
+  C:/pico/pico-sdk/src/rp2_common/hardware_gpio/include/hardware/gpio.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/sio.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/interp.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/padsbank0.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/pads_bank0.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/iobank0.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/io_bank0.h \
+  C:/pico/pico-sdk/src/rp2_common/hardware_irq/include/hardware/irq.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/intctrl.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/m0plus.h \
+  C:/pico/pico-sdk/src/rp2_common/hardware_uart/include/hardware/uart.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/uart.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/uart.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/dreq.h \
+  C:/pico/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h \
+  C:/pico/pico-sdk/src/rp2_common/hardware_spi/include/hardware/spi.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/spi.h \
+  C:/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/spi.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/stdio.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include/stdarg.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/reent.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/_ansi.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/_types.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/machine/_types.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/lock.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/types.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/machine/endian.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/machine/_endian.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/select.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/_sigset.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/_timeval.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/timespec.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/_timespec.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/_pthreadtypes.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/sched.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/machine/types.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/sys/stdio.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/stdlib.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/machine/stdlib.h \
+  C:/tools/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/alloca.h
+
 src/CMakeFiles/ges_monitor.dir/view/lcd_test.c.obj: C:/gitprj/ges_monitor/src/view/lcd_test.c \
   C:/gitprj/ges_monitor/src/view/main.h \
   C:/gitprj/ges_monitor/src/lib/config/DEV_Config.h \
@@ -4045,6 +4125,8 @@ C:/pico/pico-sdk/src/common/pico_util/queue.c:
 C:/pico/pico-sdk/src/common/pico_util/include/pico/util/queue.h:
 
 C:/pico/pico-sdk/src/rp2_common/hardware_claim/claim.c:
+
+C:/gitprj/ges_monitor/src/main.c:
 
 C:/tools/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include/float.h:
 

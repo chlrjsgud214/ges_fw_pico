@@ -17,6 +17,14 @@ extern LCD_DIS sLCD_DIS;
 extern uint8_t id;
 static TP_DEV sTP_DEV;
 static TP_DRAW sTP_Draw;
+static DEV_TIME settime;
+int16_t pagestatus=0;
+const char * kitno[]={"001","002","003","004"};
+const char * reml[]={"400ml","3000ml","500ml","1000ml"};
+const char * reppm[]={"25ppm","100ppm","100EA","1000ppm"};
+const char * reday[]={"22.08.18","22.08.08","22.07.28","22.07.08"};    
+const char * retime[]={"12:10","16:22","07:45","00:00"};    
+int ycur=35;
 /*******************************************************************************
 function:
 		Read the ADC of the channel
@@ -585,25 +593,108 @@ function:
 		Paint the Delete key and paint color choose area
 *******************************************************************************/
 void TP_gesmain(void){ // 가로 X축 , 세로 Y축
-    //LCD_Clear(LCD_BACKGROUND);
-
+    LCD_Clear(LCD_BACKGROUND);
+    // settime.Year=2022;
+    // settime.Month=8;
+    // settime.Day=18;
+    settime.Hour=12;
+    settime.Min=00;
+    settime.Sec=00;
     //GUI_DrawRectangle(0, 70, sLCD_DIS.LCD_Dis_Column , sLCD_DIS.LCD_Dis_Page - 30, BLUE, DRAW_EMPTY, DOT_PIXEL_DFT);
     GUI_DrawRectangle(0, 0, 320, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
     GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
     GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
     GUI_DrawLine(0,50,320,50,BLACK,0,1);
+    GUI_DisString_EN(5,15,"HOME",&Font16,GBLUE,BLACK);
+    GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
+    GUI_Showtime(70,15,250,32,&settime,BLACK,GBLUE); //시간
 
     GUI_DrawRectangle(20, 70, 140, 130, GBLUE, 1, 1); // 측정시작
     GUI_DrawRectangle(20, 70, 140, 130, BLACK, 0, 1);
+    GUI_DisString_EN(40,90,"START",&Font24,GBLUE,BLACK);
 
     GUI_DrawRectangle(180 , 70, 300, 130, GBLUE, 1, 1); // 측정기록
     GUI_DrawRectangle(180 , 70, 300, 130, BLACK, 0, 1);
+    GUI_DisString_EN(190,90,"RESULT",&Font24,GBLUE,BLACK);
 
     GUI_DrawRectangle(20, 155, 140, 215, GBLUE, 1, 1); // 센서조정
     GUI_DrawRectangle(20, 155, 140, 215, BLACK, 0, 1);
+    GUI_DisString_EN(30,175,"SENSOR",&Font24,GBLUE,BLACK);
 
     GUI_DrawRectangle(180, 155, 300, 215, GBLUE, 1, 1); // 설정
     GUI_DrawRectangle(180, 155, 300, 215, BLACK, 0, 1);
+    GUI_DisString_EN(190,175,"SETTING",&Font20,GBLUE,BLACK);
+}
+
+void TP_gesvallist(void)
+{
+    LCD_Clear(LCD_BACKGROUND);
+    GUI_DrawRectangle(0, 0, 320, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
+    GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
+    GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
+    GUI_DrawLine(0,50,320,50,BLACK,0,1);
+    GUI_DisString_EN(5,15,"BACK",&Font16,GBLUE,BLACK);
+    GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
+    GUI_DisString_EN(70,15,"RESULT LIST",&Font20,GBLUE,BLACK); //시간
+    
+    GUI_DrawRectangle(0, 50, 320, 90, GRAY, DRAW_FULL, DOT_PIXEL_1X1); //측정 기록 바
+    GUI_DisString_EN(15,65,"TIME",&Font16,GRAY,WHITE);
+    GUI_DisString_EN(85,65,"MP PPM",&Font12,GRAY,WHITE);
+    GUI_DisString_EN(175,65,"MP mL",&Font12,GRAY,WHITE);
+    GUI_DisString_EN(255,65,"Kit no",&Font12,GRAY,WHITE);
+    GUI_DrawLine(77,50,77,240,BLACK,0,1);
+    GUI_DrawLine(160,50,160,240,BLACK,0,1);
+    GUI_DrawLine(240,50,240,240,BLACK,0,1);
+    // GUI_DrawLine(0,60,320,60,BLACK,0,1);
+    
+    for(int i=0;i<4;i++){ //100부터 220까지 40 단위로 표시
+        GUI_DrawLine(0,90+(i*ycur),320,90+(i*ycur),BLACK,0,1);        
+        GUI_DisString_EN(5,95+(i*ycur),reday[3-i],&Font12,WHITE,BLACK); // 날짜
+        GUI_DisString_EN(5,110+(i*ycur),retime[3-i],&Font12,WHITE,BLACK); // 시간
+
+        GUI_DisString_EN(85,100+(i*ycur),reppm[3-i],&Font12,WHITE,BLACK); // 측정량
+        GUI_DisString_EN(175,100+(i*ycur),reml[3-i],&Font12,WHITE,BLACK); // 용량
+        GUI_DisString_EN(255,100+(i*ycur),kitno[3-i],&Font12,WHITE,BLACK); // 키트넘버
+    }
+
+}
+
+void TP_gessensor(void)
+{
+    LCD_Clear(LCD_BACKGROUND);
+    GUI_DrawRectangle(0, 0, 320, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
+    GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
+    GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
+    GUI_DrawLine(0,50,320,50,BLACK,0,1);
+    GUI_DisString_EN(5,15,"BACK",&Font16,GBLUE,BLACK);
+    GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
+    GUI_DisString_EN(70,15,"Sensor Check",&Font20,GBLUE,BLACK); //시간
+
+}
+
+void TP_gessetting(void)
+{
+    LCD_Clear(LCD_BACKGROUND);
+    GUI_DrawRectangle(0, 0, 320, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
+    GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
+    GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
+    GUI_DrawLine(0,50,320,50,BLACK,0,1);
+    GUI_DisString_EN(5,15,"BACK",&Font16,GBLUE,BLACK);
+    GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
+    GUI_DisString_EN(110,15,"SETTING",&Font20,GBLUE,BLACK); //시간
+
+}
+
+void TP_gesmpresultstart(void){
+    LCD_Clear(LCD_BACKGROUND);
+    GUI_DrawRectangle(0, 0, 320, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
+    GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
+    GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
+    GUI_DrawLine(0,50,320,50,BLACK,0,1);
+    GUI_DisString_EN(5,15,"BACK",&Font16,GBLUE,BLACK);
+    GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
+    GUI_DisString_EN(120,15,"START",&Font20,GBLUE,BLACK); //시간
+
 }
 
 void TP_Dialog(void)
@@ -673,38 +764,60 @@ void TP_DrawBoard(void)
         if (sTP_Draw.Xpoint < sLCD_DIS.LCD_Dis_Column &&
             //Dete/rmine whether the law is legal
             sTP_Draw.Ypoint < sLCD_DIS.LCD_Dis_Page) {
+                if ((sTP_Draw.Xpoint < 50 &&
+					sTP_Draw.Ypoint < 50) && (pagestatus>=1)) {
+                    TP_gesmain();
+                    pagestatus=0;
+                        
+                    }else if((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  //180 , 70, 300, 130  측정기록
+					        (sTP_Draw.Ypoint  < 130 && sTP_Draw.Ypoint > 70) && (pagestatus==0)){ 
+                            TP_gesvallist();
+                            pagestatus=1;
 
-			 if(LCD_2_8 == id){
+                    }else if((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 140 ) &&  //20, 70, 140, 130 측정시작
+					        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 140) && (pagestatus==0)){
+                            TP_gesmpresultstart();
+                            pagestatus=1;
+                    }else if((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 140 ) &&  //20, 155, 140, 215 센서
+					        (sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215) && (pagestatus==0)){
+                            TP_gessensor();
+                            pagestatus=1;
+                    }else if((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  //180, 155, 300, 215 셋팅
+					        (sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215) && (pagestatus==0)){
+                            TP_gessetting();
+                            pagestatus=1;
+                            }
+			//  if(LCD_2_8 == id){
 				
-				if (sTP_Draw.Xpoint > (sLCD_DIS.LCD_Dis_Column - 60) &&
-						sTP_Draw.Ypoint < 16) {//Clear Board
-						TP_Dialog();
-				} else if(sTP_Draw.Xpoint > (sLCD_DIS.LCD_Dis_Column - 120) &&
-						  sTP_Draw.Xpoint < (sLCD_DIS.LCD_Dis_Column - 80) &&
-						  sTP_Draw.Ypoint < 16) { //afresh adjustment
-					TP_Adjust();
-					TP_Dialog();
-				} else if(sTP_Draw.Xpoint > 0 && sTP_Draw.Xpoint < 15 &&
-						  sTP_Draw.Ypoint > 0 && sTP_Draw.Ypoint < 15) {
-					sTP_Draw.Color = BLUE;
-				} else if(sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 35 &&
-						  sTP_Draw.Ypoint > 0 && sTP_Draw.Ypoint < 15) {
-					sTP_Draw.Color = GREEN;
-				} else if(sTP_Draw.Xpoint > 40 && sTP_Draw.Xpoint < 55 &&
-						  sTP_Draw.Ypoint > 0 && sTP_Draw.Ypoint < 15) {
-					sTP_Draw.Color = RED;
-				} else if(sTP_Draw.Xpoint > 60 && sTP_Draw.Xpoint < 75 &&
-						  sTP_Draw.Ypoint > 0 && sTP_Draw.Ypoint < 15) {
-					sTP_Draw.Color = YELLOW;
-				} else if(sTP_Draw.Xpoint > 80 && sTP_Draw.Xpoint < 95 &&
-						  sTP_Draw.Ypoint > 0 && sTP_Draw.Ypoint < 15) {
-					sTP_Draw.Color = BLACK;
-				} else {
-					GUI_DrawPoint(sTP_Draw.Xpoint, sTP_Draw.Ypoint,
-						  sTP_Draw.Color , DOT_PIXEL_1X1, DOT_FILL_RIGHTUP);
-				 }
+			// 	if (sTP_Draw.Xpoint > (sLCD_DIS.LCD_Dis_Column - 60) &&
+			// 			sTP_Draw.Ypoint < 16) {//Clear Board
+			// 			TP_Dialog();
+			// 	} else if(sTP_Draw.Xpoint > (sLCD_DIS.LCD_Dis_Column - 120) &&
+			// 			  sTP_Draw.Xpoint < (sLCD_DIS.LCD_Dis_Column - 80) &&
+			// 			  sTP_Draw.Ypoint < 16) { //afresh adjustment
+			// 		TP_Adjust();
+			// 		TP_Dialog();
+			// 	} else if(sTP_Draw.Xpoint > 0 && sTP_Draw.Xpoint < 15 &&
+			// 			  sTP_Draw.Ypoint > 0 && sTP_Draw.Ypoint < 15) {
+			// 		sTP_Draw.Color = BLUE;
+			// 	} else if(sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 35 &&
+			// 			  sTP_Draw.Ypoint > 0 && sTP_Draw.Ypoint < 15) {
+			// 		sTP_Draw.Color = GREEN;
+			// 	} else if(sTP_Draw.Xpoint > 40 && sTP_Draw.Xpoint < 55 &&
+			// 			  sTP_Draw.Ypoint > 0 && sTP_Draw.Ypoint < 15) {
+			// 		sTP_Draw.Color = RED;
+			// 	} else if(sTP_Draw.Xpoint > 60 && sTP_Draw.Xpoint < 75 &&
+			// 			  sTP_Draw.Ypoint > 0 && sTP_Draw.Ypoint < 15) {
+			// 		sTP_Draw.Color = YELLOW;
+			// 	} else if(sTP_Draw.Xpoint > 80 && sTP_Draw.Xpoint < 95 &&
+			// 			  sTP_Draw.Ypoint > 0 && sTP_Draw.Ypoint < 15) {
+			// 		sTP_Draw.Color = BLACK;
+			// 	} else {
+			// 		GUI_DrawPoint(sTP_Draw.Xpoint, sTP_Draw.Ypoint,
+			// 			  sTP_Draw.Color , DOT_PIXEL_1X1, DOT_FILL_RIGHTUP);
+			// 	 }
 			     
-			}
+			// }
         }
     }
 }

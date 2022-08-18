@@ -465,7 +465,7 @@ sFONT *GUI_GetFontSize(POINT Dx, POINT Dy)
   note:
 ******************************************************************************/
 void GUI_Showtime(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
-                  DEV_TIME *pTime, COLOR Color)
+                  DEV_TIME *pTime, COLOR Color ,COLOR FColor)
 {
     uint8_t value[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     sFONT *Font;
@@ -476,28 +476,28 @@ void GUI_Showtime(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
     Font = GUI_GetFontSize(Dx, Dy);
 	
 	if ((pTime->Sec % 10) < 10 && (pTime->Sec % 10) > 0) {
-		LCD_SetArealColor(Xstart + Dx * 6, Ystart, Xend, Yend, WHITE);// xx:xx:x0
+		LCD_SetArealColor(Xstart + Dx * 6, Ystart, Xend, Yend, FColor);// xx:xx:x0
 	} else {
 		if ((pTime->Sec / 10) < 6 && (pTime->Sec / 10) > 0) {
-			LCD_SetArealColor(Xstart + Dx * 5, Ystart, Xend, Yend, WHITE);// xx:xx:00
+			LCD_SetArealColor(Xstart + Dx * 5, Ystart, Xend, Yend, FColor);// xx:xx:00
 		} else {//sec = 60
 			pTime->Min = pTime->Min + 1;
 			pTime->Sec = 0;
 			if ((pTime->Min % 10) < 10 && (pTime->Min % 10) > 0) {
-				LCD_SetArealColor(Xstart + Dx * 3 + Dx / 2, Ystart, Xend, Yend, WHITE);// xx:x0:00
+				LCD_SetArealColor(Xstart + Dx * 3 + Dx / 2, Ystart, Xend, Yend, FColor);// xx:x0:00
 			} else {
 				if ((pTime->Min / 10) < 6 && (pTime->Min / 10) > 0) {
-					LCD_SetArealColor(Xstart + Dx * 2 + Dx / 2, Ystart, Xend, Yend, WHITE);// xx:00:00
+					LCD_SetArealColor(Xstart + Dx * 2 + Dx / 2, Ystart, Xend, Yend, FColor);// xx:00:00
 				} else {//min = 60
 					pTime->Hour =  pTime->Hour + 1;
 					pTime->Min = 0;
 					if ((pTime->Hour % 10) < 4 && (pTime->Hour % 10) > 0 && pTime->Hour < 24) {// x0:00:00
-						LCD_SetArealColor(Xstart + Dx, Ystart, Xend, Yend, WHITE);
+						LCD_SetArealColor(Xstart + Dx, Ystart, Xend, Yend, FColor);
 					} else {
 						pTime->Hour = 0;
 						pTime->Min = 0;
 						pTime->Sec = 0;
-						LCD_SetArealColor(Xstart, Ystart, Xend, Yend, WHITE);// 00:00:00
+						LCD_SetArealColor(Xstart, Ystart, Xend, Yend, FColor);// 00:00:00
 					}
 				}
 			}

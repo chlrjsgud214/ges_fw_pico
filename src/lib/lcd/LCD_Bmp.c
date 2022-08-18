@@ -60,15 +60,15 @@ void LCD_Show_bmp( LCD_SCAN_DIR Bmp_ScanDir, LCD_SCAN_DIR Lcd_ScanDir){
     FRESULT res;
    
     /* Open directory */
-	LCD_Clear(LCD_BACKGROUND);
+	LCD_Clear(BLACK);
     res = f_opendir(&directory, "/");
     if((res != FR_OK)){
 		if(res == FR_NO_FILESYSTEM){
 			/* Display message: SD card not FAT formated */
-			GUI_DisString_EN(0, 32, "SD_CARD_NOT_FORMATTED", &Font24,LCD_BACKGROUND,BLUE);  
+			//GUI_DisString_EN(0, 32, "SD_CARD_NOT_FORMATTED", &Font24,LCD_BACKGROUND,BLUE);  
 		}else{
 			/* Display message: Fail to open directory */
-			GUI_DisString_EN(0, 48, "SD_CARD_OPEN_FAIL", &Font24,LCD_BACKGROUND,BLUE);           
+			//GUI_DisString_EN(0, 48, "SD_CARD_OPEN_FAIL", &Font24,LCD_BACKGROUND,BLUE);           
 		}
     }else{
 		//printf("file open \r\n");
@@ -111,7 +111,7 @@ void LCD_Show_bmp( LCD_SCAN_DIR Bmp_ScanDir, LCD_SCAN_DIR Lcd_ScanDir){
         }
 
 	}
-	LCD_Clear(LCD_BACKGROUND);
+	LCD_Clear(BLACK);
 	//Restore the default scan
 	LCD_SetGramScanWay( Lcd_ScanDir );
 	DEV_Digital_Write(SD_CS_PIN,1);	
