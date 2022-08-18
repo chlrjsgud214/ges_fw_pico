@@ -10,5 +10,6 @@ cmake --build build -j4
 python .\down.py
 
 # 업데이트 내역
-220818 lcd page 추가 확인 Cmake 환경 및 git 환경 추가 \n\r
-220819 LCD DEMO Page 완료 / 한글화 및 프레임 조정중
+220818 lcd page 추가 확인 Cmake 환경 및 git 환경 추가
+#
+220819 LCD DEMO Page 완료 / 한글화 및 프레임 조정중 
