@@ -1,34 +1,25 @@
 cmake_minimum_required(VERSION 3.12)
-include(pico_sdk_import.cmake)
-project(ges_monitor)
+
+set(PRJ_NAME ges_monitor)
+
+set(PICO_SDK_PATH $ENV{PICO_SDK_PATH})
+set(PICOSYSTEM_DIR $ENV{PICOSYSTEM_DIR})
+set(PICO_TOOLCHAIN_PATH $ENV{PICO_TOOLCHAIN_PATH})
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
+include(${PICO_SDK_PATH}/external/pico_sdk_import.cmake)
+
+project(${PRJ_NAME})
+
+# Initialize the SDK
 pico_sdk_init()
 
-add_subdirectory(lib/config)
-add_subdirectory(lib/lcd)
-add_subdirectory(lib/font)
-add_subdirectory(examples)
-add_subdirectory(lib/fatfs)
-add_subdirectory(lib/sdcard)
-add_subdirectory(lib/hangle)
+add_compile_options(-Wall
+        -Wno-format          # int != int32_t as far as the compiler is concerned because gcc has int32_t as long int
+        -Wno-unused-function # we have some for the docs that aren't called
+        -Wno-maybe-uninitialized 
+        )
 
-include_directories(examples)
-include_directories(./lib/config)
-include_directories(./lib/lcd)
-include_directories(./lib/font)
-include_directories(./lib/fatfs)
-include_directories(./lib/sdcard)
-include_directories(./lib/hangle)
+add_subdirectory(src)
 
-
-add_executable(main 
-main.c
-)
-
-# enable usb output, disable uart output
-pico_enable_stdio_usb(main 1)
-pico_enable_stdio_uart(main 0)
-
-# create map/bin/hex/uf2 file etc.
-pico_add_extra_outputs(main)
-
-target_link_libraries(main examples lcd font config pico_stdlib hardware_spi fatfs)
