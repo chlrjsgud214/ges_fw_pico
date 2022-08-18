@@ -40,7 +40,7 @@
 int lcd_test(void)
 {
 	//uint8_t counter = 0;
-   	
+   	bspInit(); // USB COM Port 활성화 
 	System_Init();
 	SD_Init();
 

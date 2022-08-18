@@ -51,6 +51,7 @@ typedef struct{
 }TP_DRAW;
 
 
+
 void TP_GetAdFac(void);
 void TP_Adjust(void);
 void TP_Dialog(void);
@@ -64,4 +65,6 @@ void TP_gesvalview(void);
 void TP_gesmpresultstart(void);
 void TP_gessetting(void);
 void TP_gessensor(void);
+
+
 #endif

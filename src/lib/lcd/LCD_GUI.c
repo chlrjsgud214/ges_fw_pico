@@ -15,6 +15,35 @@
 ******************************************************************************/
 #include "LCD_GUI.h"
 
+#define LCD_FONT_RESIZE_WIDTH  64
+
+typedef struct
+{
+  int16_t x;
+  int16_t y;
+} lcd_pixel_t;
+
+
+static bool lcd_request_draw = false;
+static bool is_init = false;
+static LcdFont lcd_font = LCD_FONT_HAN;
+static lcd_font_t *font_tbl[LCD_FONT_MAX] = { &font_07x10, &font_11x18, &font_16x26, &font_hangul};
+static lcd_driver_t lcd;
+static uint8_t frame_index = 0;
+
+static void disHanFont(int x, int y, han_font_t *FontPtr, uint16_t textcolor);
+static void disEngFont(int x, int y, char ch, lcd_font_t *font, uint16_t textcolor);
+static void lcdDrawLineBuffer(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, lcd_pixel_t *line);
+
+#define LCD_OPT_DEF   __attribute__((optimize("O2")))
+
+static uint16_t *p_draw_frame_buf = NULL;
+static uint16_t __attribute__((aligned(64))) frame_buffer[1][LCD_2_8_WIDTH * LCD_2_8_HEIGHT];
+
+// static uint16_t __attribute__((aligned(64))) font_src_buffer[16 * 16];
+// static uint16_t __attribute__((aligned(64))) font_dst_buffer[LCD_FONT_RESIZE_WIDTH * LCD_FONT_RESIZE_WIDTH];
+
+
 extern LCD_DIS sLCD_DIS;
 extern uint8_t id;
 /******************************************************************************
@@ -34,6 +63,13 @@ function:	Coordinate conversion
 void GUI_Clear(COLOR Color)
 {
     LCD_Clear(Color);
+}
+
+LCD_OPT_DEF void lcdDrawPixel(uint16_t x_pos, uint16_t y_pos, uint32_t rgb_code)
+{
+  if (x_pos < 0 || x_pos >= LCD_2_8_WIDTH) return;
+  if (y_pos < 0 || y_pos >= LCD_2_8_HEIGHT) return;
+  p_draw_frame_buf[y_pos * LCD_2_8_WIDTH + x_pos] = (0xFFFF - rgb_code);
 }
 
 /******************************************************************************
@@ -571,3 +607,201 @@ void GUI_Show(void)
 	
 }
 
+/*
+
+*/
+
+uint16_t *lcdGetFrameBuffer(void)
+{
+  return (uint16_t *)p_draw_frame_buf;
+}
+
+uint16_t *lcdGetCurrentFrameBuffer(void)
+{
+  return (uint16_t *)frame_buffer[frame_index];
+}
+LCD_OPT_DEF void lcdClearBuffer(uint32_t rgb_code)
+{
+  uint16_t *p_buf = lcdGetFrameBuffer();
+
+  for (int i=0; i<LCD_2_8_WIDTH * LCD_2_8_HEIGHT; i++)
+  {
+    p_buf[i] = (0xFFFF - rgb_code);
+  }
+}
+bool lcdDrawAvailable(void)
+{
+  bool ret = false;
+ 
+      ret = true;
+
+  return ret;
+}
+
+bool lcdRequestDraw(void)
+{
+  if (is_init != true)
+  {
+    return false;
+  }
+  if (lcd_request_draw == true)
+  {
+    return false;
+  }
+
+  lcd.setWindow(0, 0, LCD_2_8_WIDTH-1, LCD_2_8_HEIGHT-1);
+
+  lcd_request_draw = true;
+  lcd.sendBuffer((uint8_t *)frame_buffer[frame_index], LCD_2_8_WIDTH * LCD_2_8_HEIGHT, 0);
+
+  return true;
+}
+
+void lcdUpdateDraw(void)
+{
+  uint32_t pre_time;
+
+  if (is_init != true)
+  {
+    return;
+  }
+
+  lcdRequestDraw();
+
+  pre_time =200;
+  while(lcdDrawAvailable() != true)
+  {
+    delay(1);
+    if (millis()-pre_time >= 100)
+    {
+      break;
+    }
+  }
+}
+
+void lcdSetFont(LcdFont font)
+{
+  lcd_font = font;
+}
+
+LcdFont lcdGetFont(void)
+{
+  return lcd_font;
+}
+
+
+void disEngFont(int x, int y, char ch, lcd_font_t *font, uint16_t textcolor)
+{
+  uint32_t i, b, j;
+
+
+  // We gaan door het font
+  for (i = 0; i < font->height; i++)
+  {
+    b = font->data[(ch - 32) * font->height + i];
+    for (j = 0; j < font->width; j++)
+    {
+      if ((b << j) & 0x8000)
+      {
+        lcdDrawPixel(x + j, (y + i), textcolor);
+      }
+    }
+  }
+}
+
+void disHanFont(int x, int y, han_font_t *FontPtr, uint16_t textcolor)
+{
+  uint16_t    i, j, Loop;
+  uint16_t  FontSize = FontPtr->Size_Char;
+  uint16_t index_x;
+
+  if (FontSize > 2)
+  {
+    FontSize = 2;
+  }
+
+  for ( i = 0 ; i < 16 ; i++ )        // 16 Lines per Font/Char
+  {
+    index_x = 0;
+    for ( j = 0 ; j < FontSize ; j++ )      // 16 x 16 (2 Bytes)
+    {
+      uint8_t font_data;
+
+      font_data = FontPtr->FontBuffer[i*FontSize +j];
+
+      for( Loop=0; Loop<8; Loop++ )
+      {
+        if( (font_data<<Loop) & (0x80))
+        {
+          lcdDrawPixel(x + index_x, y + i, textcolor);
+        }
+        index_x++;
+      }
+    }
+  }
+}
+
+void lcdPrintf(int x, int y, uint16_t color,  const char *fmt, ...)
+{
+  va_list arg;
+  va_start (arg, fmt);
+  int32_t len;
+  char print_buffer[256];
+  int Size_Char;
+  int i, x_Pre = x;
+  han_font_t FontBuf;
+  uint8_t font_width;
+  uint8_t font_height;
+
+
+  len = vsnprintf(print_buffer, 255, fmt, arg);
+  va_end (arg);
+
+  if (font_tbl[lcd_font]->data != NULL)
+  {
+    for( i=0; i<len; i+=Size_Char )
+    {
+      disEngFont(x, y, print_buffer[i], font_tbl[lcd_font], color);
+
+      Size_Char = 1;
+      font_width = font_tbl[lcd_font]->width;
+      font_height = font_tbl[lcd_font]->height;
+      x += font_width;
+
+      if ((x+font_width) > LCD_2_8_WIDTH)
+      {
+        x  = x_Pre;
+        y += font_height;
+      }
+    }
+  }
+  else
+  {
+    for( i=0; i<len; i+=Size_Char )
+    {
+      hanFontLoad( &print_buffer[i], &FontBuf );
+
+      disHanFont( x, y, &FontBuf, color);
+
+      Size_Char = FontBuf.Size_Char;
+      if (Size_Char >= 2)
+      {
+        font_width = 16;
+        x += 2*8;
+      }
+      else
+      {
+        font_width = 8;
+        x += 1*8;
+      }
+
+      if ((x+font_width) > LCD_2_8_WIDTH)
+      {
+        x  = x_Pre;
+        y += 16;
+      }
+
+      if( FontBuf.Code_Type == PHAN_END_CODE ) break;
+    }
+  }
+}

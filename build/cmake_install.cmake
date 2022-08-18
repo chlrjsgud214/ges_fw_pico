@@ -1,8 +1,8 @@
-# Install script for directory: C:/gitprj/ges_monitor
+# Install script for directory: C:/gitprj
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/ges_monitor")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/gitprj")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,13 +34,13 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/tools/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objdump.exe")
+  set(CMAKE_OBJDUMP "D:/tools/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objdump.exe")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("C:/gitprj/ges_monitor/build/pico-sdk/cmake_install.cmake")
-  include("C:/gitprj/ges_monitor/build/src/cmake_install.cmake")
+  include("C:/gitprj/build/pico-sdk/cmake_install.cmake")
+  include("C:/gitprj/build/src/cmake_install.cmake")
 
 endif()
 
@@ -52,5 +52,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/gitprj/ges_monitor/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/gitprj/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

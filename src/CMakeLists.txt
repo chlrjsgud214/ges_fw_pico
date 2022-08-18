@@ -12,14 +12,17 @@ add_executable(
   lib/font/font16.c
   lib/font/font20.c
   lib/font/font24.c
-  #lib/font/han.c
   lib/lcd/LCD_Bmp.c
-  lib/lcd/LCD_Driver.c
-  #lib/lcd/lcd_fonts.c
+  lib/lcd/LCD_Driver.c  
   lib/lcd/LCD_GUI.c
   lib/lcd/LCD_Touch.c
   lib/sdcard/MMC_SD.c
+
+  lib/lcd/lcd_fonts.c
+  lib/font/han.c
+  bsp/bsp.c
   
+
 )
 
 target_include_directories(${PRJ_NAME} PUBLIC 
@@ -28,6 +31,7 @@ target_include_directories(${PRJ_NAME} PUBLIC
     lib/font
     lib/lcd
     lib/sdcard
+    bsp
     view
 )
 

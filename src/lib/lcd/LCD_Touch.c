@@ -25,6 +25,10 @@ const char * reppm[]={"25ppm","100ppm","100EA","1000ppm"};
 const char * reday[]={"22.08.18","22.08.08","22.07.28","22.07.08"};    
 const char * retime[]={"12:10","16:22","07:45","00:00"};    
 int ycur=35;
+const char * jstr;
+
+bool ret = false;
+
 /*******************************************************************************
 function:
 		Read the ADC of the channel
@@ -670,6 +674,10 @@ void TP_gessensor(void)
     GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
     GUI_DisString_EN(70,15,"Sensor Check",&Font20,GBLUE,BLACK); //시간
 
+    GUI_DisString_EN(20,100,"Please wait a moment",&Font20,WHITE,BLACK);
+    GUI_DisString_EN(30,150,"Adjusting sensor...",&Font20,WHITE,BLACK);
+    
+
 }
 
 void TP_gessetting(void)
@@ -683,6 +691,31 @@ void TP_gessetting(void)
     GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
     GUI_DisString_EN(110,15,"SETTING",&Font20,GBLUE,BLACK); //시간
 
+    GUI_DrawRectangle(10, 60, 100, 140, GBLUE, 1, 1); // 시간변경
+    GUI_DrawRectangle(10, 60, 100, 140, BLACK, 0, 1);
+    GUI_DisString_EN(30,90,"START",&Font16,GBLUE,BLACK);
+
+    GUI_DrawRectangle(15+100, 60, 105+100, 140, GBLUE, 1, 1); // 단위 변경
+    GUI_DrawRectangle(15+100, 60, 105+100, 140, BLACK, 0, 1);
+    GUI_DisString_EN(125,90,"RESULT",&Font16,GBLUE,BLACK);
+
+    GUI_DrawRectangle(20+100+100, 60, 110+100+100, 140, GBLUE, 1, 1); // 메모리
+    GUI_DrawRectangle(20+100+100, 60, 110+100+100, 140, BLACK, 0, 1);
+    GUI_DisString_EN(230,90,"SENSOR",&Font16,GBLUE,BLACK);
+    
+    GUI_DrawRectangle(10, 150, 100, 230, GBLUE, 1, 1); // 시간변경
+    GUI_DrawRectangle(10, 150, 100, 230, BLACK, 0, 1);
+    GUI_DisString_EN(30,185,"Blue",&Font16,GBLUE,BLACK);
+
+    GUI_DrawRectangle(15+100, 150, 105+100, 230, GBLUE, 1, 1); // 단위 변경
+    GUI_DrawRectangle(15+100, 150, 105+100, 230, BLACK, 0, 1);
+    GUI_DisString_EN(145,185,"Log",&Font16,GBLUE,BLACK);
+
+    GUI_DrawRectangle(20+100+100, 150, 110+100+100, 230, GBLUE, 1, 1); // 메모리
+    GUI_DrawRectangle(20+100+100, 150, 110+100+100, 230, BLACK, 0, 1);
+    GUI_DisString_EN(225,185,"HW info",&Font16,GBLUE,BLACK);
+    
+
 }
 
 void TP_gesmpresultstart(void){
@@ -694,6 +727,17 @@ void TP_gesmpresultstart(void){
     GUI_DisString_EN(5,15,"BACK",&Font16,GBLUE,BLACK);
     GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
     GUI_DisString_EN(120,15,"START",&Font20,GBLUE,BLACK); //시간
+
+    GUI_DisString_EN(25,90,"Please Set Frist mL",&Font20,WHITE,BLACK);
+    GUI_DrawRectangle(103, 130, 103+17, 130+24, BLACK, 0, 1);
+    GUI_DrawRectangle(103+(17*1), 130, 103+(17*2), 130+24, BLACK, 0, 1);
+    GUI_DrawRectangle(103+(17*2), 130, 103+(17*3), 130+24, BLACK, 0, 1);
+    GUI_DrawRectangle(103+(17*3), 130, 103+(17*4), 130+24, BLACK, 0, 1);
+    GUI_DisString_EN(105,132,"0000 mL",&Font24,WHITE,BLACK);
+
+    GUI_DrawRectangle(55, 175, 65+(17*12), 195+24, GBLUE, DRAW_FULL, 2);
+    GUI_DisString_EN(70,185,"Micro START",&Font24,GBLUE,BLACK);
+    GUI_DrawRectangle(55, 175, 65+(17*12), 195+24, BLACK, 0, 2);
 
 }
 
@@ -751,6 +795,7 @@ void TP_Dialog(void)
 	}
 }
 
+
 /*******************************************************************************
 function:
 		Draw Board
@@ -767,6 +812,8 @@ void TP_DrawBoard(void)
                 if (((sTP_Draw.Xpoint > 0 && sTP_Draw.Xpoint < 50 ) &&  //180 , 70, 300, 130  메인페이지
 				    (sTP_Draw.Ypoint  > 0 && sTP_Draw.Ypoint < 50)) && (pagestatus==1)){ 
                     TP_gesmain();
+                        
+                    
                     pagestatus=0;
                         
                     }else if(((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  //180 , 70, 300, 130  측정기록
@@ -785,6 +832,7 @@ void TP_DrawBoard(void)
                     }else if(((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  //180, 155, 300, 215 셋팅
 					        (sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215)) && (pagestatus==0)){
                             TP_gessetting();
+                            
                             pagestatus=1;
                             }else
                             { 

@@ -20,9 +20,51 @@
 
 #include "LCD_Driver.h"
 #include "fonts.h"
+#include "../font/han.h"
+#include "lcd_fonts.h"
+
 
 #define LOW_Speed_Show 0
 #define HIGH_Speed_Show 1
+
+typedef enum
+{
+  LCD_FONT_07x10,
+  LCD_FONT_11x18,
+  LCD_FONT_16x26,
+  LCD_FONT_HAN,
+  LCD_FONT_MAX
+} LcdFont;
+
+typedef enum
+{
+  LCD_ALIGN_H_LEFT    = (1<<0),
+  LCD_ALIGN_H_CENTER  = (1<<1),
+  LCD_ALIGN_H_RIGHT   = (1<<2),
+  LCD_ALIGN_V_TOP     = (1<<3),
+  LCD_ALIGN_V_CENTER  = (1<<4),
+  LCD_ALIGN_V_BOTTOM  = (1<<5),
+} LcdStringAlign;
+
+typedef enum
+{
+  LCD_RESIZE_NEAREST,
+  LCD_RESIZE_BILINEAR
+} LcdResizeMode;
+
+typedef struct lcd_driver_t_ lcd_driver_t;
+
+typedef struct lcd_driver_t_
+{
+  bool     (*init)(void);
+  bool     (*reset)(void);
+  void     (*setWindow)(int32_t x, int32_t y, int32_t w, int32_t h);
+  uint16_t (*getWidth)(void);
+  uint16_t (*getHeight)(void);
+  bool     (*setCallBack)(void (*p_func)(void));
+  bool     (*sendBuffer)(uint8_t *p_data, uint32_t length, uint32_t timeout_ms);
+
+} lcd_driver_t;
 /********************************************************************************
 function:
 			dot pixel
@@ -80,6 +122,23 @@ typedef struct {
 } DEV_TIME;
 extern DEV_TIME sDev_time;
 
+enum class_color {
+white   =  0xFFFF,
+black   =  0x0000,
+blue    =  0x001F,
+BRED    =  0XF81F,
+GRED 	  =  0XFFE0,
+GBLUE	  =  0X07FF,
+red     =  0xF800,
+MAGENTA =  0xF81F,
+green   =  0x07E0,
+CYAN    =  0x7FFF,
+yellow  =  0xFFE0,
+BROWN  	=	 0XBC40,
+BRRED 	=	 0XFC07,
+GRAY  	=	 0X8430,
+
+};
 /********************************************************************************
 function:
 			Defines commonly used colors for the display
@@ -127,6 +186,16 @@ void GUI_DisNum(POINT Xpoint, POINT Ypoint, int32_t Nummber, sFONT* Font, COLOR 
 void GUI_Showtime(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend, DEV_TIME *pTime, COLOR Color, COLOR FColor);
 //show
 void GUI_Show(void);
+
+bool lcdDrawAvailable(void);
+bool lcdRequestDraw(void);
+void lcdUpdateDraw(void);
+void lcdDrawPixel(uint16_t x_pos, uint16_t y_pos, uint32_t rgb_code);
+void lcdPrintf(int x, int y, uint16_t color,  const char *fmt, ...);
+void lcdSetFont(LcdFont font);
+LcdFont lcdGetFont(void);
+void lcdPrintfResize(int x, int y, uint16_t color,  float ratio_h, const char *fmt, ...);
+//void lcdSetResizeMode(LcdResizeMode mode);
 
 #endif
 

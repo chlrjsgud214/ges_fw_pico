@@ -3,6 +3,8 @@
         "lcd_driver.h": "c",
         "lcd_touch.h": "c",
         "dev_config.h": "c",
-        //"han.h": "c"
+        "lcd_gui.h": "c",
+        "lcd_fonts.h": "c",
+        "han.h": "c"
     }
 }
