@@ -7,7 +7,7 @@ cmake -S . -B build -G "Unix Makefiles" -DPICO_BOARD=pico
 cmake --build build -j4
 
 ## 다운로드
-python .\down.py
+python tools\down.py
 
 # 업데이트 내역
 220818 lcd page 추가 확인 Cmake 환경 및 git 환경 추가

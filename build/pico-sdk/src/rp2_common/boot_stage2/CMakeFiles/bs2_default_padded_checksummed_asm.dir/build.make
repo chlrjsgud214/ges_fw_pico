@@ -53,10 +53,10 @@ RM = "C:/Program Files/CMake/bin/cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:/gitprj
+CMAKE_SOURCE_DIR = C:/gitprj/ges_monitor
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:/gitprj/build
+CMAKE_BINARY_DIR = C:/gitprj/ges_monitor/build
 
 # Utility rule file for bs2_default_padded_checksummed_asm.
 
@@ -69,12 +69,12 @@ include pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checks
 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm: pico-sdk/src/rp2_common/boot_stage2/bs2_default_padded_checksummed.S
 
 pico-sdk/src/rp2_common/boot_stage2/bs2_default_padded_checksummed.S: pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=C:/gitprj/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating bs2_default_padded_checksummed.S"
-	cd C:/gitprj/build/pico-sdk/src/rp2_common/boot_stage2 && E:/anaconda/python.exe D:/pico/pico-sdk/src/rp2_common/boot_stage2/pad_checksum -s 0xffffffff C:/gitprj/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin C:/gitprj/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default_padded_checksummed.S
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=C:/gitprj/ges_monitor/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating bs2_default_padded_checksummed.S"
+	cd C:/gitprj/ges_monitor/build/pico-sdk/src/rp2_common/boot_stage2 && "C:/Program Files/WindowsApps/PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0/python3.9.exe" C:/pico/pico-sdk/src/rp2_common/boot_stage2/pad_checksum -s 0xffffffff C:/gitprj/ges_monitor/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin C:/gitprj/ges_monitor/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default_padded_checksummed.S
 
 pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin: pico-sdk/src/rp2_common/boot_stage2/bs2_default.elf
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=C:/gitprj/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating bs2_default.bin"
-	cd C:/gitprj/build/pico-sdk/src/rp2_common/boot_stage2 && D:/tools/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objcopy.exe -Obinary C:/gitprj/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default.elf C:/gitprj/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=C:/gitprj/ges_monitor/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating bs2_default.bin"
+	cd C:/gitprj/ges_monitor/build/pico-sdk/src/rp2_common/boot_stage2 && C:/tools/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objcopy.exe -Obinary C:/gitprj/ges_monitor/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default.elf C:/gitprj/ges_monitor/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin
 
 bs2_default_padded_checksummed_asm: pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm
 bs2_default_padded_checksummed_asm: pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin
@@ -87,10 +87,10 @@ pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_as
 .PHONY : pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/build
 
 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/clean:
-	cd C:/gitprj/build/pico-sdk/src/rp2_common/boot_stage2 && $(CMAKE_COMMAND) -P CMakeFiles/bs2_default_padded_checksummed_asm.dir/cmake_clean.cmake
+	cd C:/gitprj/ges_monitor/build/pico-sdk/src/rp2_common/boot_stage2 && $(CMAKE_COMMAND) -P CMakeFiles/bs2_default_padded_checksummed_asm.dir/cmake_clean.cmake
 .PHONY : pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/clean
 
 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" C:/gitprj D:/pico/pico-sdk/src/rp2_common/boot_stage2 C:/gitprj/build C:/gitprj/build/pico-sdk/src/rp2_common/boot_stage2 C:/gitprj/build/pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" C:/gitprj/ges_monitor C:/pico/pico-sdk/src/rp2_common/boot_stage2 C:/gitprj/ges_monitor/build C:/gitprj/ges_monitor/build/pico-sdk/src/rp2_common/boot_stage2 C:/gitprj/ges_monitor/build/pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/depend
 

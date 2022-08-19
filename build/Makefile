@@ -57,10 +57,10 @@ RM = "C:/Program Files/CMake/bin/cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:/gitprj
+CMAKE_SOURCE_DIR = C:/gitprj/ges_monitor
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:/gitprj/build
+CMAKE_BINARY_DIR = C:/gitprj/ges_monitor/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:/gitprj/build/CMakeFiles C:/gitprj/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/gitprj/ges_monitor/build/CMakeFiles C:/gitprj/ges_monitor/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:/gitprj/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/gitprj/ges_monitor/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -195,17 +195,17 @@ cyw43_driver_picow_cyw43_bus_pio_spi_pio_h/fast:
 .PHONY : cyw43_driver_picow_cyw43_bus_pio_spi_pio_h/fast
 
 #=============================================================================
-# Target rules for targets named gitprj
+# Target rules for targets named ges_monitor
 
 # Build rule for target.
-gitprj: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gitprj
-.PHONY : gitprj
+ges_monitor: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ges_monitor
+.PHONY : ges_monitor
 
 # fast build rule for target.
-gitprj/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/gitprj.dir/build.make src/CMakeFiles/gitprj.dir/build
-.PHONY : gitprj/fast
+ges_monitor/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/ges_monitor.dir/build.make src/CMakeFiles/ges_monitor.dir/build
+.PHONY : ges_monitor/fast
 
 #=============================================================================
 # Target rules for targets named ELF2UF2Build
@@ -235,7 +235,7 @@ help:
 	@echo "... cyw43_driver_picow_cyw43_bus_pio_spi_pio_h"
 	@echo "... cyw43_firmware_package"
 	@echo "... bs2_default"
-	@echo "... gitprj"
+	@echo "... ges_monitor"
 .PHONY : help
 
 

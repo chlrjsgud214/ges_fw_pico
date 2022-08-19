@@ -285,7 +285,7 @@ void LCD_Init(LCD_SCAN_DIR LCD_ScanDir, uint16_t LCD_BLval)
 	LCD_SetBackLight(LCD_BLval);
 	
 	LCD_SetGramScanWay(LCD_ScanDir);//Set the display scan and color transfer modes
-	Driver_Delay_ms(200);
+	Driver_Delay_ms(50);
 }
 
 /********************************************************************************

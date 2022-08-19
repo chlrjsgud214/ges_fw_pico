@@ -597,7 +597,7 @@ function:
 		Paint the Delete key and paint color choose area
 *******************************************************************************/
 void TP_gesmain(void){ // 가로 X축 , 세로 Y축
-    LCD_Clear(LCD_BACKGROUND);
+    //LCD_Clear(LCD_BACKGROUND);
     // settime.Year=2022;
     // settime.Month=8;
     // settime.Day=18;
@@ -609,9 +609,10 @@ void TP_gesmain(void){ // 가로 X축 , 세로 Y축
     GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
     GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
     GUI_DrawLine(0,50,320,50,BLACK,0,1);
-    GUI_DisString_EN(5,15,"HOME",&Font16,GBLUE,BLACK);
+    GUI_DisString_EN(3,15,"HOME",&Font16,GBLUE,BLACK);
     GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
     GUI_Showtime(70,15,250,32,&settime,BLACK,GBLUE); //시간
+    GUI_DrawRectangle(0, 51, 320, 240, WHITE, DRAW_FULL, DOT_PIXEL_1X1);
 
     GUI_DrawRectangle(20, 70, 140, 130, GBLUE, 1, 1); // 측정시작
     GUI_DrawRectangle(20, 70, 140, 130, BLACK, 0, 1);
@@ -632,14 +633,15 @@ void TP_gesmain(void){ // 가로 X축 , 세로 Y축
 
 void TP_gesvallist(void)
 {
-    LCD_Clear(LCD_BACKGROUND);
-    GUI_DrawRectangle(0, 0, 320, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
-    GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
-    GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
+    //LCD_Clear(LCD_BACKGROUND);
+    GUI_DrawRectangle(53, 0, 267, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
+    // GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
+    // GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
     GUI_DrawLine(0,50,320,50,BLACK,0,1);
-    GUI_DisString_EN(5,15,"BACK",&Font16,GBLUE,BLACK);
-    GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
+    // GUI_DisString_EN(3,15,"BACK",&Font16,GBLUE,BLACK);
+    // GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
     GUI_DisString_EN(80,15,"RESULT LIST",&Font20,GBLUE,BLACK); //시간
+    GUI_DrawRectangle(0, 51, 320, 240, WHITE, DRAW_FULL, DOT_PIXEL_1X1);
     
     GUI_DrawRectangle(0, 50, 320, 90, GRAY, DRAW_FULL, DOT_PIXEL_1X1); //측정 기록 바
     GUI_DisString_EN(15,65,"TIME",&Font16,GRAY,WHITE);
@@ -653,11 +655,11 @@ void TP_gesvallist(void)
     
     for(int i=0;i<4;i++){ //100부터 220까지 40 단위로 표시
         GUI_DrawLine(0,90+(i*ycur),320,90+(i*ycur),BLACK,0,1);        
-        GUI_DisString_EN(5,95+(i*ycur),reday[3-i],&Font12,WHITE,BLACK); // 날짜
-        GUI_DisString_EN(5,110+(i*ycur),retime[3-i],&Font12,WHITE,BLACK); // 시간
+        GUI_DisString_EN(5,95+(i*ycur),reday[i],&Font12,WHITE,BLACK); // 날짜
+        GUI_DisString_EN(5,110+(i*ycur),retime[i],&Font12,WHITE,BLACK); // 시간
 
-        GUI_DisString_EN(85,100+(i*ycur),reppm[3-i],&Font12,WHITE,BLACK); // 측정량
-        GUI_DisString_EN(175,100+(i*ycur),reml[3-i],&Font12,WHITE,BLACK); // 용량
+        GUI_DisString_EN(85,100+(i*ycur),reppm[i],&Font12,WHITE,BLACK); // 측정량
+        GUI_DisString_EN(175,100+(i*ycur),reml[i],&Font12,WHITE,BLACK); // 용량
         GUI_DisString_EN(255,100+(i*ycur),kitno[3-i],&Font12,WHITE,BLACK); // 키트넘버
     }
 
@@ -665,14 +667,15 @@ void TP_gesvallist(void)
 
 void TP_gessensor(void)
 {
-    LCD_Clear(LCD_BACKGROUND);
-    GUI_DrawRectangle(0, 0, 320, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
-    GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
-    GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
+    //LCD_Clear(LCD_BACKGROUND);
+    GUI_DrawRectangle(53, 0, 267, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
+    // GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
+    // GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
     GUI_DrawLine(0,50,320,50,BLACK,0,1);
     GUI_DisString_EN(5,15,"BACK",&Font16,GBLUE,BLACK);
-    GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
+    // GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
     GUI_DisString_EN(70,15,"Sensor Check",&Font20,GBLUE,BLACK); //시간
+    GUI_DrawRectangle(0, 51, 320, 240, WHITE, DRAW_FULL, DOT_PIXEL_1X1);
 
     GUI_DisString_EN(20,100,"Please wait a moment",&Font20,WHITE,BLACK);
     GUI_DisString_EN(30,150,"Adjusting sensor...",&Font20,WHITE,BLACK);
@@ -682,14 +685,15 @@ void TP_gessensor(void)
 
 void TP_gessetting(void)
 {
-    LCD_Clear(LCD_BACKGROUND);
-    GUI_DrawRectangle(0, 0, 320, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
-    GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
-    GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
+    //LCD_Clear(LCD_BACKGROUND);
+    GUI_DrawRectangle(53, 0, 267, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
+    // GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
+    // GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
     GUI_DrawLine(0,50,320,50,BLACK,0,1);
-    GUI_DisString_EN(5,15,"BACK",&Font16,GBLUE,BLACK);
-    GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
+    GUI_DisString_EN(3,15,"BACK",&Font16,GBLUE,BLACK);
+    // GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
     GUI_DisString_EN(110,15,"SETTING",&Font20,GBLUE,BLACK); //시간
+    GUI_DrawRectangle(0, 51, 320, 240, WHITE, DRAW_FULL, DOT_PIXEL_1X1);
 
     GUI_DrawRectangle(10, 60, 100, 140, GBLUE, 1, 1); // 시간변경
     GUI_DrawRectangle(10, 60, 100, 140, BLACK, 0, 1);
@@ -697,11 +701,11 @@ void TP_gessetting(void)
 
     GUI_DrawRectangle(15+100, 60, 105+100, 140, GBLUE, 1, 1); // 단위 변경
     GUI_DrawRectangle(15+100, 60, 105+100, 140, BLACK, 0, 1);
-    GUI_DisString_EN(125,90,"RESULT",&Font16,GBLUE,BLACK);
+    GUI_DisString_EN(128,90,"RESULT",&Font16,GBLUE,BLACK);
 
     GUI_DrawRectangle(20+100+100, 60, 110+100+100, 140, GBLUE, 1, 1); // 메모리
     GUI_DrawRectangle(20+100+100, 60, 110+100+100, 140, BLACK, 0, 1);
-    GUI_DisString_EN(230,90,"SENSOR",&Font16,GBLUE,BLACK);
+    GUI_DisString_EN(233,90,"SENSOR",&Font16,GBLUE,BLACK);
     
     GUI_DrawRectangle(10, 150, 100, 230, GBLUE, 1, 1); // 시간변경
     GUI_DrawRectangle(10, 150, 100, 230, BLACK, 0, 1);
@@ -719,14 +723,14 @@ void TP_gessetting(void)
 }
 
 void TP_gesmpresultstart(void){
-    LCD_Clear(LCD_BACKGROUND);
-    GUI_DrawRectangle(0, 0, 320, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
-    GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
-    GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
+    //LCD_Clear(LCD_BACKGROUND);
+    GUI_DrawRectangle(53, 0, 267, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
+    // GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
+    // GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
     GUI_DrawLine(0,50,320,50,BLACK,0,1);
-    GUI_DisString_EN(5,15,"BACK",&Font16,GBLUE,BLACK);
-    GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
+    GUI_DisString_EN(3,15,"BACK",&Font16,GBLUE,BLACK);
     GUI_DisString_EN(120,15,"START",&Font20,GBLUE,BLACK); //시간
+    GUI_DrawRectangle(0, 51, 320, 240, WHITE, DRAW_FULL, DOT_PIXEL_1X1);
 
     GUI_DisString_EN(25,90,"Please Set Frist mL",&Font20,WHITE,BLACK);
     GUI_DrawRectangle(103, 130, 103+17, 130+24, BLACK, 0, 1);
@@ -811,9 +815,7 @@ void TP_DrawBoard(void)
             sTP_Draw.Ypoint < sLCD_DIS.LCD_Dis_Page) {
                 if (((sTP_Draw.Xpoint > 0 && sTP_Draw.Xpoint < 50 ) &&  //180 , 70, 300, 130  메인페이지
 				    (sTP_Draw.Ypoint  > 0 && sTP_Draw.Ypoint < 50)) && (pagestatus==1)){ 
-                    TP_gesmain();
-                        
-                    
+                    TP_gesmain();      
                     pagestatus=0;
                         
                     }else if(((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  //180 , 70, 300, 130  측정기록
@@ -829,15 +831,14 @@ void TP_DrawBoard(void)
 					        (sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215) )&& (pagestatus==0)){
                             TP_gessensor();
                             pagestatus=1;
-                    }else if(((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  //180, 155, 300, 215 셋팅
-					        (sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215)) && (pagestatus==0)){
+                    }else if(sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300  &&  //180, 155, 300, 215 셋팅
+					        sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215 && pagestatus==0){
                             TP_gessetting();
                             
                             pagestatus=1;
-                            }else
-                            { 
+                    }else{ 
 
-                            } 
+                    } 
 			//  if(LCD_2_8 == id){
 				
 			// 	if (sTP_Draw.Xpoint > (sLCD_DIS.LCD_Dis_Column - 60) &&
