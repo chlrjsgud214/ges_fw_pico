@@ -871,11 +871,11 @@ void TP_DrawBoard(void)
                         sstop=true;
                     }
                 }else if(((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  //180 , 70, 300, 130  측정기록
-				        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 130)) && (pagestatus==0)){ 
+				        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 120)) && (pagestatus==0)){ 
                         TP_gesvallist();
                         pagestatus=1;
                 }else if(((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 140 ) &&  //20, 70, 140, 130 측정시작
-				        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 140)) && (pagestatus==0)){
+				        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 120)) && (pagestatus==0)){
                         TP_gesmpresultstart();
                         pagestatus=1;
                 }else if(((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 140 ) &&  //20, 155, 140, 215 센서
