@@ -866,6 +866,7 @@ void TP_DrawBoard(void)
                     TP_gesmain();      
                     pagestatus=0;
                     if(sstart){
+                        PWMOFF();
                         sstart=false;
                         sstop=true;
                     }
@@ -898,13 +899,16 @@ void TP_DrawBoard(void)
                 }else if(((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  // PWM STOP
 				        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 120)) && (pagestatus==3)){
                         pwmstatus=0;                        
-                        TP_gessensor_pwm();                            
+                        TP_gessensor_pwm();
+                        PWMOFF();
+                        pwmgui=0;                            
                         sstop=true;
                         sstart=false;
                 }else if(((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 300 ) &&  // PWM bar
 				        (sTP_Draw.Ypoint  > 165 && sTP_Draw.Ypoint < 220)) && (pagestatus==3)){
                         if(sstart){
                             pwmgui=cmap(sTP_Draw.Xpoint,20,299,0,255);
+                            PWMON(pwmgui);    
                             TP_gessensor_pwm_bar();
                             printf("pwm: %d\r\n",pwmgui);
                         }
@@ -945,15 +949,15 @@ void TP_DrawBoard(void)
         }
     }
 
-    if(sstart && (pagestatus==3))
-    {        
-        PWMON(pwmgui);    
-        // printf("OUTPWM: %d \r\n",pwmgui);
-        // Driver_Delay_ms(500);
-    }else if(sstop){
-        pwmgui=0;
-        PWMOFF();
-    }
+    // if(sstart && (pagestatus==3))
+    // {        
+        
+    //     // printf("OUTPWM: %d \r\n",pwmgui);
+    //     // Driver_Delay_ms(500);
+    // }else if(sstop){
+    //     pwmgui=0;
+        
+    // }
 
 }
 

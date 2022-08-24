@@ -65,7 +65,7 @@ note:
 void DEV_PWM_Init(void)
 {	
 	gpio_set_function(PWM_LED, GPIO_FUNC_PWM);
-  slice_num = pwm_gpio_to_slice_num(PWM_LED);
+  slice_num = pwm_gpio_to_slice_num(PWM_LED); // 2B
 
   pwm_set_clkdiv(slice_num, clock_get_hz(clk_sys)/1000000); //133,000,000
 
