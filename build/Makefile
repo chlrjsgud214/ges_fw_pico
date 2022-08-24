@@ -57,10 +57,10 @@ RM = "C:/Program Files/CMake/bin/cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:/gitprj/ges_monitor
+CMAKE_SOURCE_DIR = C:/gitprj/lcd_pwm_demo
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:/gitprj/ges_monitor/build
+CMAKE_BINARY_DIR = C:/gitprj/lcd_pwm_demo/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:/gitprj/ges_monitor/build/CMakeFiles C:/gitprj/ges_monitor/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/gitprj/lcd_pwm_demo/build/CMakeFiles C:/gitprj/lcd_pwm_demo/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:/gitprj/ges_monitor/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:/gitprj/lcd_pwm_demo/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -195,17 +195,17 @@ cyw43_driver_picow_cyw43_bus_pio_spi_pio_h/fast:
 .PHONY : cyw43_driver_picow_cyw43_bus_pio_spi_pio_h/fast
 
 #=============================================================================
-# Target rules for targets named ges_monitor
+# Target rules for targets named lcd_pwm_demo
 
 # Build rule for target.
-ges_monitor: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ges_monitor
-.PHONY : ges_monitor
+lcd_pwm_demo: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lcd_pwm_demo
+.PHONY : lcd_pwm_demo
 
 # fast build rule for target.
-ges_monitor/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/ges_monitor.dir/build.make src/CMakeFiles/ges_monitor.dir/build
-.PHONY : ges_monitor/fast
+lcd_pwm_demo/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/lcd_pwm_demo.dir/build.make src/CMakeFiles/lcd_pwm_demo.dir/build
+.PHONY : lcd_pwm_demo/fast
 
 #=============================================================================
 # Target rules for targets named ELF2UF2Build
@@ -235,7 +235,7 @@ help:
 	@echo "... cyw43_driver_picow_cyw43_bus_pio_spi_pio_h"
 	@echo "... cyw43_firmware_package"
 	@echo "... bs2_default"
-	@echo "... ges_monitor"
+	@echo "... lcd_pwm_demo"
 .PHONY : help
 
 

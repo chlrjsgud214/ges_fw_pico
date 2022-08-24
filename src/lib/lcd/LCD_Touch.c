@@ -18,7 +18,13 @@ extern uint8_t id;
 static TP_DEV sTP_DEV;
 static TP_DRAW sTP_Draw;
 static DEV_TIME settime;
-int16_t pagestatus=0;
+uint16_t pagestatus=0;
+bool pwmstatus=false;
+bool sstart=false;
+bool sstop=false;
+uint8_t pwmval=0;
+uint32_t pwmout=0;
+
 const char * kitno[]={"001","002","003","004"};
 const char * reml[]={"400ml","3000ml","500ml","1000ml"};
 const char * reppm[]={"25ppm","100ppm","100EA","1000ppm"};
@@ -676,10 +682,52 @@ void TP_gessensor(void)
     // GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
     GUI_DisString_EN(70,15,"Sensor Check",&Font20,GBLUE,BLACK); //시간
     GUI_DrawRectangle(0, 51, 320, 240, WHITE, DRAW_FULL, DOT_PIXEL_1X1);
-
-    GUI_DisString_EN(20,100,"Please wait a moment",&Font20,WHITE,BLACK);
-    GUI_DisString_EN(30,150,"Adjusting sensor...",&Font20,WHITE,BLACK);
     
+    GUI_DrawRectangle(20, 70, 139, 129, WHITE, 1, 1); // PWM START
+    GUI_DrawRectangle(20, 70, 140, 130, BLACK, 0, 1);
+    GUI_DisString_EN(40,90,"START",&Font24,WHITE,BLACK);
+
+    GUI_DrawRectangle(180 , 70, 299, 129, GBLUE, 1, 1); // PWM STOP
+    GUI_DrawRectangle(180 , 70, 300, 130, BLACK, 0, 1);
+    GUI_DisString_EN(205,90,"STOP",&Font24,GBLUE,BLACK);
+
+    GUI_DrawRectangle(20,165,299,219,GRAY,1,1); //20, 155, 140, 215, pwm 조절바
+    GUI_DrawRectangle(20,165,300,220,BLACK,0,1);
+
+}
+
+
+void TP_gessensor_pwm()
+{
+    if(pwmstatus){ // START
+        if(!sstart){ // 시작으로 바뀌었을때만 사용
+            GUI_DrawRectangle(20, 70, 139, 129, GBLUE, 1, 1); // PWM START
+            GUI_DisString_EN(40,90,"START",&Font24,GBLUE,BLACK);
+            GUI_DrawRectangle(180 , 70, 299, 129, WHITE, 1, 1); // PWM STOP
+            GUI_DisString_EN(205,90,"STOP",&Font24,WHITE,BLACK);
+            GUI_DrawRectangle(20,165,300-1,220-1,WHITE,1,1);
+        }
+
+        // GUI_DrawRectangle(20,165,pwmgui+21,220,GBLUE,1,1); //20, 155, 140, 215, pwm 조절바
+        // GUI_DisString_EN(70,185,pwmout,&Font24,WHITE,BLACK);
+    }
+    
+    if(!pwmstatus){ // STOP
+        
+        if(!sstop){
+            GUI_DrawRectangle(20, 70, 139, 129, WHITE, 1, 1); // PWM START
+            GUI_DisString_EN(40,90,"START",&Font24,WHITE,BLACK);
+            GUI_DrawRectangle(180 , 70, 299, 129, GBLUE, 1, 1); // PWM STOP
+            GUI_DisString_EN(205,90,"STOP",&Font24,GBLUE,BLACK);
+            GUI_DrawRectangle(20,165,300-1,220-1,GRAY,1,1);
+        }
+        PWMOFF();
+    }
+}
+
+void TP_gessensor_pwm_bar(){
+    GUI_DrawRectangle(20,165,sTP_Draw.Xpoint,220-1,GBLUE,1,1); //프로그레스 바 업다운
+    GUI_DrawRectangle(sTP_Draw.Xpoint,165,299,220-1,WHITE,1,1);
 
 }
 
@@ -814,31 +862,55 @@ void TP_DrawBoard(void)
             //Dete/rmine whether the law is legal
             sTP_Draw.Ypoint < sLCD_DIS.LCD_Dis_Page) {
                 if (((sTP_Draw.Xpoint > 0 && sTP_Draw.Xpoint < 50 ) &&  //180 , 70, 300, 130  메인페이지
-				    (sTP_Draw.Ypoint  > 0 && sTP_Draw.Ypoint < 50)) && (pagestatus==1)){ 
+				    (sTP_Draw.Ypoint  > 0 && sTP_Draw.Ypoint < 50)) && (pagestatus>=1)){ 
                     TP_gesmain();      
                     pagestatus=0;
+                    if(sstart){
+                        sstart=false;
+                        sstop=true;
+                    }
+                }else if(((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  //180 , 70, 300, 130  측정기록
+				        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 130)) && (pagestatus==0)){ 
+                        TP_gesvallist();
+                        pagestatus=1;
+                }else if(((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 140 ) &&  //20, 70, 140, 130 측정시작
+				        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 140)) && (pagestatus==0)){
+                        TP_gesmpresultstart();
+                        pagestatus=1;
+                }else if(((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 140 ) &&  //20, 155, 140, 215 센서
+				        (sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215) )&& (pagestatus==0)){
+                        TP_gessensor();
+                        pwmgui=0;
+                        pagestatus=3;
+                }else if(sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300  &&  //180, 155, 300, 215 셋팅
+				        sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215 && pagestatus==0){
+                        TP_gessetting();
                         
-                    }else if(((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  //180 , 70, 300, 130  측정기록
-					        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 130)) && (pagestatus==0)){ 
-                            TP_gesvallist();
-                            pagestatus=1;
-
-                    }else if(((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 140 ) &&  //20, 70, 140, 130 측정시작
-					        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 140)) && (pagestatus==0)){
-                            TP_gesmpresultstart();
-                            pagestatus=1;
-                    }else if(((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 140 ) &&  //20, 155, 140, 215 센서
-					        (sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215) )&& (pagestatus==0)){
-                            TP_gessensor();
-                            pagestatus=1;
-                    }else if(sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300  &&  //180, 155, 300, 215 셋팅
-					        sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215 && pagestatus==0){
-                            TP_gessetting();
-                            
-                            pagestatus=1;
-                    }else{ 
-
-                    } 
+                        pagestatus=1;
+                }else if(((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 140 ) &&  // PWM START
+				        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 120)) && (pagestatus==3)){
+                        pwmstatus=1;
+                        // pwmgui=0;
+                        TP_gessensor_pwm();
+                        sstop=false;
+                        sstart=true;
+                        
+                }else if(((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  // PWM STOP
+				        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 120)) && (pagestatus==3)){
+                        pwmstatus=0;                        
+                        TP_gessensor_pwm();                            
+                        sstop=true;
+                        sstart=false;
+                }else if(((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 300 ) &&  // PWM bar
+				        (sTP_Draw.Ypoint  > 165 && sTP_Draw.Ypoint < 220)) && (pagestatus==3)){
+                        if(sstart){
+                            pwmgui=cmap(sTP_Draw.Xpoint,20,299,0,255);
+                            TP_gessensor_pwm_bar();
+                            printf("pwm: %d\r\n",pwmgui);
+                        }
+                        
+                }else{ 
+                }    
 			//  if(LCD_2_8 == id){
 				
 			// 	if (sTP_Draw.Xpoint > (sLCD_DIS.LCD_Dis_Column - 60) &&
@@ -872,6 +944,17 @@ void TP_DrawBoard(void)
 			// }
         }
     }
+
+    if(sstart && (pagestatus==3))
+    {        
+        PWMON(pwmgui);    
+        // printf("OUTPWM: %d \r\n",pwmgui);
+        // Driver_Delay_ms(500);
+    }else if(sstop){
+        pwmgui=0;
+        PWMOFF();
+    }
+
 }
 
 /*******************************************************************************

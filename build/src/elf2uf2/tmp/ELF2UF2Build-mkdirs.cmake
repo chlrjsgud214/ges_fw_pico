@@ -4,19 +4,19 @@
 cmake_minimum_required(VERSION 3.5)
 
 file(MAKE_DIRECTORY
-  "C:/pico/pico-sdk/tools/elf2uf2"
-  "C:/gitprj/ges_monitor/build/elf2uf2"
-  "C:/gitprj/ges_monitor/build/src/elf2uf2"
-  "C:/gitprj/ges_monitor/build/src/elf2uf2/tmp"
-  "C:/gitprj/ges_monitor/build/src/elf2uf2/src/ELF2UF2Build-stamp"
-  "C:/gitprj/ges_monitor/build/src/elf2uf2/src"
-  "C:/gitprj/ges_monitor/build/src/elf2uf2/src/ELF2UF2Build-stamp"
+  "D:/pico/pico-sdk/tools/elf2uf2"
+  "C:/gitprj/lcd_pwm_demo/build/elf2uf2"
+  "C:/gitprj/lcd_pwm_demo/build/src/elf2uf2"
+  "C:/gitprj/lcd_pwm_demo/build/src/elf2uf2/tmp"
+  "C:/gitprj/lcd_pwm_demo/build/src/elf2uf2/src/ELF2UF2Build-stamp"
+  "C:/gitprj/lcd_pwm_demo/build/src/elf2uf2/src"
+  "C:/gitprj/lcd_pwm_demo/build/src/elf2uf2/src/ELF2UF2Build-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "C:/gitprj/ges_monitor/build/src/elf2uf2/src/ELF2UF2Build-stamp/${subDir}")
+    file(MAKE_DIRECTORY "C:/gitprj/lcd_pwm_demo/build/src/elf2uf2/src/ELF2UF2Build-stamp/${subDir}")
 endforeach()
 if(cfgdir)
-  file(MAKE_DIRECTORY "C:/gitprj/ges_monitor/build/src/elf2uf2/src/ELF2UF2Build-stamp${cfgdir}") # cfgdir has leading slash
+  file(MAKE_DIRECTORY "C:/gitprj/lcd_pwm_demo/build/src/elf2uf2/src/ELF2UF2Build-stamp${cfgdir}") # cfgdir has leading slash
 endif()

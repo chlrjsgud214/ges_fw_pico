@@ -36,10 +36,15 @@ target_include_directories(${PRJ_NAME} PUBLIC
 )
 
 target_link_libraries(${PRJ_NAME} 
+  cmsis_core
   pico_stdlib
   hardware_spi
   hardware_dma
   hardware_irq
+  hardware_i2c
+  hardware_flash
+  hardware_pwm
+  hardware_pio
   )
 
 pico_add_extra_outputs(${PRJ_NAME})

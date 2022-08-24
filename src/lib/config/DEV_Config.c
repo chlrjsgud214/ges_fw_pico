@@ -11,6 +11,11 @@
 *
 ******************************************************************************/
 #include "DEV_Config.h"
+#include "hardware/pwm.h"
+#include "hardware/clocks.h"
+
+static uint32_t slice_num;
+static uint8_t pwm_val=100;
 
 void DEV_Digital_Write(UWORD Pin, UBYTE Value)
 {
@@ -52,7 +57,43 @@ void DEV_GPIO_Init(void)
     DEV_Digital_Write(SD_CS_PIN, 1);
 }
 
+/********************************************************************************
+function:	PWM Init
+note:
+	PWM 함수
+********************************************************************************/
+void DEV_PWM_Init(void)
+{	
+	gpio_set_function(PWM_LED, GPIO_FUNC_PWM);
+  slice_num = pwm_gpio_to_slice_num(PWM_LED);
 
+  pwm_set_clkdiv(slice_num, clock_get_hz(clk_sys)/1000000); //133,000,000
+
+  pwm_set_wrap(slice_num, 1000);
+  pwm_set_chan_level(slice_num, PWM_CHAN_B, 0);
+  pwm_set_enabled(slice_num, true);
+  pwmgui=0;
+}
+
+
+void PWMON(uint16_t val)
+{
+  uint32_t pwm_top;
+  uint32_t pwm_duty;
+
+
+  pwm_set_wrap(slice_num, 255);
+  
+//   pwm_duty = cmap(val, 0, 255, 0, 1000);
+
+  pwm_set_chan_level(slice_num, PWM_CHAN_B, val);
+
+}
+
+void PWMOFF(void)
+{  
+  pwm_set_chan_level(slice_num, PWM_CHAN_B, 0);
+}
 /********************************************************************************
 function:	System Init
 note:

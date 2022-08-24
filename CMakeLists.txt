@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-set(PRJ_NAME ges_monitor)
+set(PRJ_NAME lcd_pwm_demo)
 
 set(PICO_SDK_PATH $ENV{PICO_SDK_PATH})
 set(PICOSYSTEM_DIR $ENV{PICOSYSTEM_DIR})
