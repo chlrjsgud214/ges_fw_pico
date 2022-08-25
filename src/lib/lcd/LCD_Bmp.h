@@ -16,7 +16,7 @@
 
 #include "LCD_Driver.h"
 #include "LCD_GUI.h"
-
+ 
 void SD_Init(void);
 void LCD_Show_bmp(LCD_SCAN_DIR Bmp_ScanDir, LCD_SCAN_DIR Lcd_ScanDir);
 

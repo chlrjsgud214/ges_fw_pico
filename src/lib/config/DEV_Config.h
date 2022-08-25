@@ -50,7 +50,7 @@
 #define cmap(value, in_min, in_max, out_min, out_max) ((value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 #endif
 /*------------------------------------------------------------------------------------------------------*/
-
+ 
 static uint32_t pwmgui=0;
 void DEV_Digital_Write(UWORD Pin, UBYTE Value);
 UBYTE DEV_Digital_Read(UWORD Pin);

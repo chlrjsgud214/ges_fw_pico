@@ -58,7 +58,7 @@ int lcd_test(void)
 	// TP_gesvallist();
 	//Driver_Delay_ms(50);
 	while(1){		
-		TP_DrawBoard();
+		TP_DrawBoard(); 
 	}
 	return 0;
 }

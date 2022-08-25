@@ -74,7 +74,7 @@ void DEV_PWM_Init(void)
   pwm_set_enabled(slice_num, true);
   pwmgui=0;
 }
-
+ 
 
 void PWMON(uint16_t val)
 {

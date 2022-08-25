@@ -20,7 +20,7 @@ typedef struct
 {
   uint8_t   width;
   uint8_t   height;
-  const uint16_t *data;
+  const uint16_t *data; 
 } lcd_font_t;
 
 

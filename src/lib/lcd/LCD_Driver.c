@@ -16,7 +16,7 @@
 #include "LCD_Driver.h"
 
 LCD_DIS sLCD_DIS;
-uint8_t id = LCD_2_8;
+uint8_t id = LCD_2_8; 
 /*******************************************************************************
 function:
 	Hardware reset
