@@ -892,7 +892,7 @@ void TP_DrawBoard(void)
 				        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 120)) && (pagestatus==3)){
                         pwmstatus=1;
                         // pwmgui=0;
-                        TP_gessensor_pwm();
+                        TP_gessensor_pwm(); 
                         sstop=false;
                         sstart=true;
                         
