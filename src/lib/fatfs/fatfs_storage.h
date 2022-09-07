@@ -30,6 +30,12 @@
 #ifndef __FATFS_STORAGE_H
 #define __FATFS_STORAGE_H
 
+typedef struct PIC_PAGE{
+	uint16_t pic_page1[76800];
+ 	uint16_t pic_page2[76800];
+ 	uint16_t pic_page3[76800];
+ 	uint16_t pic_page4[76800];
+}PIC_PAGE_;
 
 extern uint32_t Storage_OpenReadFile(uint8_t Xpoz, uint16_t Ypoz, const char* BmpName);
 extern uint32_t Storage_CopyFile(const char* BmpName1, const char* BmpName2);
@@ -37,6 +43,12 @@ extern uint32_t Storage_GetDirectoryBitmapFiles (const char* DirName, char* File
 extern uint32_t Storage_CheckBitmapFile(const char* BmpName, uint32_t *FileLen);
 extern uint8_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint16_t BufferLength);
 
+extern void Storage_showfile(uint8_t Xpoz, uint16_t Ypoz,uint8_t Page_num);
+
+static void P_main(void);
+static void P_cat(void);
+static void P_start01(void);
+static void P_result(void);
 
 #endif /* __FATFS_STORAGE_H */
 

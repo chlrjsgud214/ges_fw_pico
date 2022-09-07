@@ -34,6 +34,9 @@
 #define TP_IRQ_PIN		17
 #define SD_CS_PIN		22
 #define PWM_LED         25
+#define PWM_CH0         0
+#define PWM_CH1         1
+#define PWM_CH2         2
 
 #define SPI_PORT		spi1
 #define  MAX_BMP_FILES  25 
@@ -51,7 +54,6 @@
 #endif
 /*------------------------------------------------------------------------------------------------------*/
  
-static uint32_t pwmgui=0;
 void DEV_Digital_Write(UWORD Pin, UBYTE Value);
 UBYTE DEV_Digital_Read(UWORD Pin);
 void DEV_GPIO_Mode(UWORD Pin, UWORD Mode);

@@ -13,6 +13,7 @@
 ******************************************************************************/
 #include "LCD_Touch.h"
 
+static uint32_t pwmgui=0;
 extern LCD_DIS sLCD_DIS;
 extern uint8_t id;
 static TP_DEV sTP_DEV;
@@ -20,18 +21,23 @@ static TP_DRAW sTP_Draw;
 static DEV_TIME settime;
 uint16_t pagestatus=0;
 bool pwmstatus=false;
+bool ox_sensing=false;
 bool sstart=false;
 bool sstop=false;
+uint16_t s_count=0;
 uint8_t pwmval=0;
 uint32_t pwmout=0;
+uint8_t start_status=0;
 
+const char *ox_str="";
+const char * ox_ch[10]={0x00,};
 const char * kitno[]={"001","002","003","004"};
 const char * reml[]={"400ml","3000ml","500ml","1000ml"};
 const char * reppm[]={"25ppm","100ppm","100EA","1000ppm"};
 const char * reday[]={"22.08.18","22.08.08","22.07.28","22.07.08"};    
 const char * retime[]={"12:10","16:22","07:45","00:00"};    
 int ycur=35;
-const char * jstr;
+
 
 bool ret = false;
 
@@ -611,63 +617,66 @@ void TP_gesmain(void){ // 가로 X축 , 세로 Y축
     settime.Min=00;
     settime.Sec=00;
     //GUI_DrawRectangle(0, 70, sLCD_DIS.LCD_Dis_Column , sLCD_DIS.LCD_Dis_Page - 30, BLUE, DRAW_EMPTY, DOT_PIXEL_DFT);
-    GUI_DrawRectangle(0, 0, 320, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
-    GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
-    GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
-    GUI_DrawLine(0,50,320,50,BLACK,0,1);
-    GUI_DisString_EN(3,15,"HOME",&Font16,GBLUE,BLACK);
-    GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
-    GUI_Showtime(70,15,250,32,&settime,BLACK,GBLUE); //시간
-    GUI_DrawRectangle(0, 51, 320, 240, WHITE, DRAW_FULL, DOT_PIXEL_1X1);
+    // GUI_DrawRectangle(0, 0, 320, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
+    // GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
+    // GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
+    // GUI_DrawLine(0,50,320,50,BLACK,0,1);
+    // GUI_DisString_EN(3,15,"HOME",&Font16,GBLUE,BLACK);
+    // GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
+    // GUI_Showtime(70,15,250,32,&settime,BLACK,GBLUE); //시간
+    // GUI_DrawRectangle(0, 51, 320, 240, WHITE, DRAW_FULL, DOT_PIXEL_1X1);
+    // TP_Bmp_view(0,0,1); //1 main, 2 cat
+    // Driver_Delay_ms(1000);
+    // GUI_DrawRectangle(20, 70, 140, 130, GBLUE, 1, 1); // 측정시작
+    TP_Bmp_view(0,0,"main.bmp");
+    GUI_DrawRectangle(62, 42, 130, 110, WHITE, 0, 1);
+    // GUI_DisString_EN(40,90,"START",&Font24,GBLUE,BLACK);
 
-    GUI_DrawRectangle(20, 70, 140, 130, GBLUE, 1, 1); // 측정시작
-    GUI_DrawRectangle(20, 70, 140, 130, BLACK, 0, 1);
-    GUI_DisString_EN(40,90,"START",&Font24,GBLUE,BLACK);
+    // GUI_DrawRectangle(180 , 70, 300, 130, GBLUE, 1, 1); // 측정기록
+    GUI_DrawRectangle(190 , 42, 256, 110, WHITE, 0, 1);
+    // GUI_DisString_EN(190,90,"RESULT",&Font24,GBLUE,BLACK);
 
-    GUI_DrawRectangle(180 , 70, 300, 130, GBLUE, 1, 1); // 측정기록
-    GUI_DrawRectangle(180 , 70, 300, 130, BLACK, 0, 1);
-    GUI_DisString_EN(190,90,"RESULT",&Font24,GBLUE,BLACK);
+    // GUI_DrawRectangle(20, 155, 140, 215, GBLUE, 1, 1); // 센서조정
+    GUI_DrawRectangle(62, 138, 130, 205, WHITE, 0, 1);
+    // GUI_DisString_EN(30,175,"SENSOR",&Font24,GBLUE,BLACK);
 
-    GUI_DrawRectangle(20, 155, 140, 215, GBLUE, 1, 1); // 센서조정
-    GUI_DrawRectangle(20, 155, 140, 215, BLACK, 0, 1);
-    GUI_DisString_EN(30,175,"SENSOR",&Font24,GBLUE,BLACK);
-
-    GUI_DrawRectangle(180, 155, 300, 215, GBLUE, 1, 1); // 설정
-    GUI_DrawRectangle(180, 155, 300, 215, BLACK, 0, 1);
-    GUI_DisString_EN(190,175,"SETTING",&Font20,GBLUE,BLACK);
+    // GUI_DrawRectangle(180, 155, 300, 215, GBLUE, 1, 1); // 설정
+    GUI_DrawRectangle(190, 138, 256, 205, WHITE, 0, 1);
+    // GUI_DisString_EN(190,175,"SETTING",&Font20,GBLUE,BLACK);
 }
 
 void TP_gesvallist(void)
 {
     //LCD_Clear(LCD_BACKGROUND);
-    GUI_DrawRectangle(53, 0, 267, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
-    // GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
-    // GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
-    GUI_DrawLine(0,50,320,50,BLACK,0,1);
-    // GUI_DisString_EN(3,15,"BACK",&Font16,GBLUE,BLACK);
-    // GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
-    GUI_DisString_EN(80,15,"RESULT LIST",&Font20,GBLUE,BLACK); //시간
-    GUI_DrawRectangle(0, 51, 320, 240, WHITE, DRAW_FULL, DOT_PIXEL_1X1);
+    TP_Bmp_view(0,0,"result.bmp");
+    // GUI_DrawRectangle(53, 0, 267, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
+    // // GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
+    // // GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
+    // GUI_DrawLine(0,50,320,50,BLACK,0,1);
+    // // GUI_DisString_EN(3,15,"BACK",&Font16,GBLUE,BLACK);
+    // // GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
+    // GUI_DisString_EN(80,15,"RESULT LIST",&Font20,GBLUE,BLACK); //시간
+    // GUI_DrawRectangle(0, 51, 320, 240, WHITE, DRAW_FULL, DOT_PIXEL_1X1);
     
-    GUI_DrawRectangle(0, 50, 320, 90, GRAY, DRAW_FULL, DOT_PIXEL_1X1); //측정 기록 바
-    GUI_DisString_EN(15,65,"TIME",&Font16,GRAY,WHITE);
-    GUI_DisString_EN(85,65,"MP PPM",&Font12,GRAY,WHITE);
-    GUI_DisString_EN(175,65,"MP mL",&Font12,GRAY,WHITE);
-    GUI_DisString_EN(255,65,"Kit no",&Font12,GRAY,WHITE);
-    GUI_DrawLine(77,50,77,240,BLACK,0,1);
-    GUI_DrawLine(160,50,160,240,BLACK,0,1);
-    GUI_DrawLine(240,50,240,240,BLACK,0,1);
-    // GUI_DrawLine(0,60,320,60,BLACK,0,1);
+    // GUI_DrawRectangle(0, 50, 320, 90, GRAY, DRAW_FULL, DOT_PIXEL_1X1); //측정 기록 바
+    // GUI_DisString_EN(15,65,"TIME",&Font16,GRAY,WHITE);
+    // GUI_DisString_EN(85,65,"MP PPM",&Font12,GRAY,WHITE);
+    // GUI_DisString_EN(175,65,"MP mL",&Font12,GRAY,WHITE);
+    // GUI_DisString_EN(255,65,"Kit no",&Font12,GRAY,WHITE);
+    // GUI_DrawLine(77,50,77,240,BLACK,0,1);
+    // GUI_DrawLine(160,50,160,240,BLACK,0,1);
+    // GUI_DrawLine(240,50,240,240,BLACK,0,1);
+    // // GUI_DrawLine(0,60,320,60,BLACK,0,1);
     
-    for(int i=0;i<4;i++){ //100부터 220까지 40 단위로 표시
-        GUI_DrawLine(0,90+(i*ycur),320,90+(i*ycur),BLACK,0,1);        
-        GUI_DisString_EN(5,95+(i*ycur),reday[i],&Font12,WHITE,BLACK); // 날짜
-        GUI_DisString_EN(5,110+(i*ycur),retime[i],&Font12,WHITE,BLACK); // 시간
+    // for(int i=0;i<4;i++){ //100부터 220까지 40 단위로 표시
+    //     GUI_DrawLine(0,90+(i*ycur),320,90+(i*ycur),BLACK,0,1);        
+    //     GUI_DisString_EN(5,95+(i*ycur),reday[i],&Font12,WHITE,BLACK); // 날짜
+    //     GUI_DisString_EN(5,110+(i*ycur),retime[i],&Font12,WHITE,BLACK); // 시간
 
-        GUI_DisString_EN(85,100+(i*ycur),reppm[i],&Font12,WHITE,BLACK); // 측정량
-        GUI_DisString_EN(175,100+(i*ycur),reml[i],&Font12,WHITE,BLACK); // 용량
-        GUI_DisString_EN(255,100+(i*ycur),kitno[3-i],&Font12,WHITE,BLACK); // 키트넘버
-    }
+    //     GUI_DisString_EN(85,100+(i*ycur),reppm[i],&Font12,WHITE,BLACK); // 측정량
+    //     GUI_DisString_EN(175,100+(i*ycur),reml[i],&Font12,WHITE,BLACK); // 용량
+    //     GUI_DisString_EN(255,100+(i*ycur),kitno[3-i],&Font12,WHITE,BLACK); // 키트넘버
+    // }
 
 }
 
@@ -726,6 +735,8 @@ void TP_gessensor_pwm()
 }
 
 void TP_gessensor_pwm_bar(){
+
+
     GUI_DrawRectangle(20,165,sTP_Draw.Xpoint,220-1,GBLUE,1,1); //프로그레스 바 업다운
     GUI_DrawRectangle(sTP_Draw.Xpoint,165,299,220-1,WHITE,1,1);
 
@@ -734,12 +745,15 @@ void TP_gessensor_pwm_bar(){
 void TP_gessetting(void)
 {
     //LCD_Clear(LCD_BACKGROUND);
+    // TP_Bmp_view(0,0,2);
+    // TP_Bmp_view(0,0,"cat2.bmp");
     GUI_DrawRectangle(53, 0, 267, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
     // GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
     // GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
     GUI_DrawLine(0,50,320,50,BLACK,0,1);
     GUI_DisString_EN(3,15,"BACK",&Font16,GBLUE,BLACK);
-    // GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
+
+    GUI_DisString_EN(275,15,"LOGO",&Font16,GBLUE,BLACK);
     GUI_DisString_EN(110,15,"SETTING",&Font20,GBLUE,BLACK); //시간
     GUI_DrawRectangle(0, 51, 320, 240, WHITE, DRAW_FULL, DOT_PIXEL_1X1);
 
@@ -771,25 +785,56 @@ void TP_gessetting(void)
 }
 
 void TP_gesmpresultstart(void){
+    
+        switch(start_status){
+            case 1:
+                TP_Bmp_view(0,0,"start01.bmp");
+                break;
+            case 2:
+                TP_Bmp_view(0,0,"start01b.bmp");
+                break;
+            case 3:
+                TP_Bmp_view(0,0,"start02.bmp");
+                break;
+            case 4:
+                TP_Bmp_view(0,0,"start03.bmp");
+                
+                break;
+            case 5:
+                start_status=0;
+                pagestatus=0;
+                TP_gesmain();
+                break;
+            
+        }
+    
     //LCD_Clear(LCD_BACKGROUND);
-    GUI_DrawRectangle(53, 0, 267, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
-    // GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
-    // GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
-    GUI_DrawLine(0,50,320,50,BLACK,0,1);
-    GUI_DisString_EN(3,15,"BACK",&Font16,GBLUE,BLACK);
-    GUI_DisString_EN(120,15,"START",&Font20,GBLUE,BLACK); //시간
-    GUI_DrawRectangle(0, 51, 320, 240, WHITE, DRAW_FULL, DOT_PIXEL_1X1);
+    // GUI_DrawRectangle(53, 0, 267, 50, GBLUE, DRAW_FULL, DOT_PIXEL_1X1); // 상단바 BACK TIME LOGO
+    // // GUI_DrawRectangle(0, 0, 50, 49, BLACK, 0, 2);
+    // // GUI_DrawRectangle(270, 0, 320, 49, BLACK, 0, 2);
+    // GUI_DrawLine(0,50,320,50,BLACK,0,1);
+    // GUI_DisString_EN(3,15,"BACK",&Font16,GBLUE,BLACK);
+    // GUI_DisString_EN(120,15,"START",&Font20,GBLUE,BLACK); //시간
+    // GUI_DrawRectangle(0, 51, 320, 240, WHITE, DRAW_FULL, DOT_PIXEL_1X1);
 
-    GUI_DisString_EN(25,90,"Please Set Frist mL",&Font20,WHITE,BLACK);
-    GUI_DrawRectangle(103, 130, 103+17, 130+24, BLACK, 0, 1);
-    GUI_DrawRectangle(103+(17*1), 130, 103+(17*2), 130+24, BLACK, 0, 1);
-    GUI_DrawRectangle(103+(17*2), 130, 103+(17*3), 130+24, BLACK, 0, 1);
-    GUI_DrawRectangle(103+(17*3), 130, 103+(17*4), 130+24, BLACK, 0, 1);
-    GUI_DisString_EN(105,132,"0000 mL",&Font24,WHITE,BLACK);
+    // GUI_DisString_EN(25,90,"Please Set Frist mL",&Font20,WHITE,BLACK);
+    // GUI_DrawRectangle(103, 130, 103+17, 130+24, BLACK, 0, 1);
+    // GUI_DrawRectangle(103+(17*1), 130, 103+(17*2), 130+24, BLACK, 0, 1);
+    // GUI_DrawRectangle(103+(17*2), 130, 103+(17*3), 130+24, BLACK, 0, 1);
+    // GUI_DrawRectangle(103+(17*3), 130, 103+(17*4), 130+24, BLACK, 0, 1);
+    // GUI_DisString_EN(105,132,"0000 mL",&Font24,WHITE,BLACK);
 
-    GUI_DrawRectangle(55, 175, 65+(17*12), 195+24, GBLUE, DRAW_FULL, 2);
-    GUI_DisString_EN(70,185,"Micro START",&Font24,GBLUE,BLACK);
-    GUI_DrawRectangle(55, 175, 65+(17*12), 195+24, BLACK, 0, 2);
+    // GUI_DrawRectangle(55, 175, 65+(17*12), 195+24, GBLUE, DRAW_FULL, 2);
+    // GUI_DisString_EN(70,185,"Micro START",&Font24,GBLUE,BLACK);
+    // GUI_DrawRectangle(55, 175, 65+(17*12), 195+24, BLACK, 0, 2);
+
+}
+
+void TP_Bmp_view(uint8_t Xpoz, uint8_t Ypoz,const char* Bmpname){
+    LCD_SetGramScanWay( 7 ); // BMP용 각도로 변경
+	Storage_OpenReadFile(Xpoz,Ypoz,Bmpname);
+	LCD_SetGramScanWay( 4 ); // 터치용 각도로 변경
+    // printf("save_page1 \r\n");
 
 }
 
@@ -847,7 +892,6 @@ void TP_Dialog(void)
 	}
 }
 
-
 /*******************************************************************************
 function:
 		Draw Board
@@ -856,35 +900,41 @@ void TP_DrawBoard(void)
 {
 	//sTP_DEV.chStatus &= ~(1 << 6);
     TP_Scan(0);
+
     if (sTP_DEV.chStatus & TP_PRESS_DOWN) {		//Press the button
         //Horizontal screen
         if (sTP_Draw.Xpoint < sLCD_DIS.LCD_Dis_Column &&
             //Dete/rmine whether the law is legal
             sTP_Draw.Ypoint < sLCD_DIS.LCD_Dis_Page) {
+
                 if (((sTP_Draw.Xpoint > 0 && sTP_Draw.Xpoint < 50 ) &&  //180 , 70, 300, 130  메인페이지
 				    (sTP_Draw.Ypoint  > 0 && sTP_Draw.Ypoint < 50)) && (pagestatus>=1)){ 
                     TP_gesmain();      
                     pagestatus=0;
+                    ox_sensing=false;
+                    start_status=0;
                     if(sstart){
                         PWMOFF();
                         sstart=false;
                         sstop=true;
                     }
-                }else if(((sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300 ) &&  //180 , 70, 300, 130  측정기록
-				        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 120)) && (pagestatus==0)){ 
+                }else if(((sTP_Draw.Xpoint > 190 && sTP_Draw.Xpoint < 256 ) &&  //180 , 70, 300, 130  측정기록
+				        (sTP_Draw.Ypoint  > 42 && sTP_Draw.Ypoint < 110)) && (pagestatus==0)){ 
                         TP_gesvallist();
-                        pagestatus=1;
-                }else if(((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 140 ) &&  //20, 70, 140, 130 측정시작
-				        (sTP_Draw.Ypoint  > 70 && sTP_Draw.Ypoint < 120)) && (pagestatus==0)){
-                        TP_gesmpresultstart();
-                        pagestatus=1;
-                }else if(((sTP_Draw.Xpoint > 20 && sTP_Draw.Xpoint < 140 ) &&  //20, 155, 140, 215 센서
-				        (sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215) )&& (pagestatus==0)){
+                        pagestatus=1; //시작
+                }else if(((sTP_Draw.Xpoint > 62 && sTP_Draw.Xpoint < 130 ) &&  //20, 70, 140, 130 측정시작
+				        (sTP_Draw.Ypoint  > 42 && sTP_Draw.Ypoint < 110)) && (pagestatus==0)){
+                        // TP_gesmpresultstart();
+                        ox_sensing=true;         
+                        start_status=1;               
+                        pagestatus=2;
+                }else if(((sTP_Draw.Xpoint > 62 && sTP_Draw.Xpoint < 130 ) &&  //20, 155, 140, 215 센서
+				        (sTP_Draw.Ypoint  > 138 && sTP_Draw.Ypoint < 205) )&& (pagestatus==0)){
                         TP_gessensor();
                         pwmgui=0;
-                        pagestatus=3;
-                }else if(sTP_Draw.Xpoint > 180 && sTP_Draw.Xpoint < 300  &&  //180, 155, 300, 215 셋팅
-				        sTP_Draw.Ypoint  > 155 && sTP_Draw.Ypoint < 215 && pagestatus==0){
+                        pagestatus=3; //PWM 상태
+                }else if(sTP_Draw.Xpoint > 190 && sTP_Draw.Xpoint < 256  &&  //180, 155, 300, 215 셋팅
+				        sTP_Draw.Ypoint  > 138 && sTP_Draw.Ypoint < 205 && pagestatus==0){
                         TP_gessetting();
                         
                         pagestatus=1;
@@ -915,6 +965,13 @@ void TP_DrawBoard(void)
                         
                 }else{ 
                 }    
+
+
+            if(pagestatus==2){
+                TP_gesmpresultstart();
+                start_status++;
+
+            }
 			//  if(LCD_2_8 == id){
 				
 			// 	if (sTP_Draw.Xpoint > (sLCD_DIS.LCD_Dis_Column - 60) &&

@@ -235,7 +235,7 @@ void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 				break;
 			case U2D_L2R: //0X2
 				/* Memory access control: MY = 1, MX = 0, MV = 1, ML = 0 RGB = 0 MH = 0 NN = 0 NN = 0*/
-				MemoryAccessReg_Data = 0x60;
+				MemoryAccessReg_Data = 0x64;
 				break;
 			case U2D_R2L: //0X6
 				/* Memory access control: MY = 1, MX = 0, MV = 1, ML = 0 RGB = 0 MH = 1 NN = 0 NN = 0*/
@@ -247,7 +247,7 @@ void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 				break;
 			case D2U_R2L: //0XE
 				/* Memory access control: MY = 1, MX = 0, MV = 1, ML = 1 RGB = 0 MH = 1 NN = 0 NN = 0*/
-				MemoryAccessReg_Data = 0xB4;
+				MemoryAccessReg_Data = 0x24;
 				break;
 		}
 

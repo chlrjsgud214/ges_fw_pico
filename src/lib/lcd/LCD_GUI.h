@@ -20,8 +20,6 @@
 
 #include "LCD_Driver.h"
 #include "fonts.h"
-#include "../font/han.h"
-#include "lcd_fonts.h"
 
 
 #define LOW_Speed_Show 0

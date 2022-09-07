@@ -4,7 +4,7 @@ import time
 import serial
 
 
-com_port  = "COM5"
+com_port  = "COM3"
 file_name = "../build/src/lcd_pwm_demo"
 
 

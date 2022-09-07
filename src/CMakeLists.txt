@@ -17,10 +17,7 @@ add_executable(
   lib/lcd/LCD_GUI.c
   lib/lcd/LCD_Touch.c
   lib/sdcard/MMC_SD.c
-
-  lib/lcd/lcd_fonts.c
-  lib/font/han.c
-  bsp/bsp.c
+  
   
 
 )
@@ -31,7 +28,6 @@ target_include_directories(${PRJ_NAME} PUBLIC
     lib/font
     lib/lcd
     lib/sdcard
-    bsp
     view
 )
 

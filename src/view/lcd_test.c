@@ -33,16 +33,13 @@
 #include "LCD_GUI.h"`
 #include "LCD_Bmp.h"
 #include "DEV_Config.h"`
-#include <stdio.h>
 #include "hardware/watchdog.h"
-#include "pico/stdlib.h"
-
-
+#include "fatfs_storage.h"
 
 int lcd_test(void)
 {
 	//uint8_t counter = 0;
-   	bspInit(); // USB COM Port 활성화 
+   	// bspInit(); // USB COM Port 활성화 
 	System_Init();
 	SD_Init();
 	DEV_PWM_Init();
@@ -50,15 +47,22 @@ int lcd_test(void)
 	LCD_Init(lcd_scan_dir,800);
 	TP_Init(lcd_scan_dir);
 	// GUI_Show();	
-	LCD_SCAN_DIR bmp_scan_dir = SCAN_DIR_DFT;
-	LCD_Show_bmp(bmp_scan_dir,lcd_scan_dir);	
+	// LCD_SCAN_DIR bmp_scan_dir = SCAN_DIR_DFT;
+	// LCD_Show_bmp(bmp_scan_dir,lcd_scan_dir);
+	// LCD_SetGramScanWay( 7 ); // BMP용 각도로 변경
+	// Storage_OpenReadFile(0, 0, "main.bmp");
+	// Storage_OpenReadFile(0, 0, "cat2.bmp");
+	// LCD_SetGramScanWay( lcd_scan_dir ); // 터치용 각도로 변경	
 	TP_GetAdFac(); // 터치 캘리브레이션
 	//TP_Dialog();
 	TP_gesmain();
 	// TP_gesvallist();
 	//Driver_Delay_ms(50);
+	
 	while(1){		
 		TP_DrawBoard(); 
+		//on_uart_rx();
+		//printf("test\r\n");
 	}
 	return 0;
 }

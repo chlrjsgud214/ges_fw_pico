@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "pico/float.h"
+#include "fatfs_storage.h"
 
 #define TP_PRESS_DOWN           0x80
 #define TP_PRESSED              0x40
@@ -67,6 +68,7 @@ void TP_gessetting(void);
 void TP_gessensor(void);
 void TP_gessensor_pwm(void);
 void TP_gessensor_pwm_bar(void);
+void TP_Bmp_view(uint8_t Xpoz, uint8_t Ypoz,const char* Bmpname );
 
 #endif
  

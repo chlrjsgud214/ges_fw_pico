@@ -35,6 +35,7 @@
 #include "LCD_Driver.h"
 #include "LCD_GUI.h"
 #include <string.h>
+#include <memory.h>>
 
 
 
@@ -73,18 +74,30 @@
 */
 
 #define RGB24TORGB16(R,G,B) ((R>>3)<<11)|((G>>2)<<5)|(B>>3)
-#define PIXEL(__M)  ((((__M) + 31 ) >> 5) << 2)//∂‘”⁄24Œª’Ê≤ …´ √ø“ª––µƒœÒÀÿøÌ∂»±ÿ–Î «4µƒ±∂ ˝  ∑Ò‘Ú≤π0≤π∆Î
+#define PIXEL(__M)  ((((__M) + 31 ) >> 5) << 2)
+
+
 
 extern LCD_DIS sLCD_DIS;
-
-uint8_t aBuffer[1440];/* 480 * 3 = 1440 */
+// static PIC_PAGE_ p_PAGE;
+static uint8_t aBuffer[1440];/* 480 * 3 = 1440 */
 FILINFO MyFileInfo;
 DIR MyDirectory;
 FIL MyFile;
 UINT BytesWritten;
 UINT BytesRead;
+static uint16_t pic_page1[76800];
+static uint16_t pic_page2[76800];
+static uint16_t pic_page3[76800];
+static uint16_t pic_page4[76800];
+// static uint16_t pic_page5[76800];
+
 uint16_t pic[76800];
+
 extern uint8_t id;
+const char bmp_name;
+static const char page_cat2[]="cat2.bmp",page_main[]="main.bmp",page_start01[]="start01.bmp",page_result[]="result.bmp",page_start02[]="start02.bmp";
+// const char page_list[] = {"cat2.bmp","main.bmp","result.bmp","start.bmp","","","","",""};
 /**
 * @}
 */
@@ -115,12 +128,11 @@ extern uint8_t id;
 
 uint32_t Storage_OpenReadFile(uint8_t Xpoz, uint16_t Ypoz, const char* BmpName)
 {
-    uint16_t i, j, k, h;
+    uint16_t i, j, k;
     
     uint32_t index = 0, size = 0, width = 0, height = 0;
     uint32_t bmpaddress, bit_pixel = 0;
     FIL file1; 
-
     f_open(&file1, BmpName, FA_READ);	
     f_read(&file1, aBuffer, 30, &BytesRead);
 
@@ -165,45 +177,114 @@ uint32_t Storage_OpenReadFile(uint8_t Xpoz, uint16_t Ypoz, const char* BmpName)
     f_read(&file1, aBuffer, index, &BytesRead);
     
     if(LCD_2_8 == id){
-		for (i = 0; i < height; i ++) {
+		
+		for (i = 0; i < width; i ++) { // ÎÑàÎπÑ
 			  f_read(&file1, aBuffer, 360, (UINT *)&BytesRead);
-			  f_read(&file1, aBuffer + 360, 360, (UINT *)&BytesRead);
-			  for (j = 0; j < width; j ++) {
+			  f_read(&file1, aBuffer+360, 360, (UINT *)&BytesRead);
+			  
+			  for (j = 0; j < height; j ++) { // ÎÜíÏù¥
 				  k = j * 3; 
-				  pic[i*240+j] = (uint16_t)(((aBuffer[k + 2] >> 3) << 11 ) | ((aBuffer[k + 1] >> 2) << 5) | (aBuffer[k] >> 3));
+				  
+				  pic[i*240+j] = (uint16_t)(((aBuffer[k + 2] >> 3) << 11 ) | ((aBuffer[k + 1] >> 2) << 5) | (aBuffer[k] >> 3));		
+				//   if(!strcmp(page_cat2,BmpName)){			
+				// 	p_PAGE.pic_page1[i*240+j] = (uint16_t)(((aBuffer[k + 2] >> 3) << 11 ) | ((aBuffer[k + 1] >> 2) << 5) | (aBuffer[k] >> 3));
+				//   }else if(!strcmp(page_main,BmpName)){
+				// 	p_PAGE.pic_page2[i*240+j] = (uint16_t)(((aBuffer[k + 2] >> 3) << 11 ) | ((aBuffer[k + 1] >> 2) << 5) | (aBuffer[k] >> 3));
+				//   }else if(!strcmp(page_start01,BmpName)){
+				// 	p_PAGE.pic_page3[i*240+j] = (uint16_t)(((aBuffer[k + 2] >> 3) << 11 ) | ((aBuffer[k + 1] >> 2) << 5) | (aBuffer[k] >> 3));
+				//   }else if(!strcmp(page_result,BmpName)){
+				// 	p_PAGE.pic_page4[i*240+j] = (uint16_t)(((aBuffer[k + 2] >> 3) << 11 ) | ((aBuffer[k + 1] >> 2) << 5) | (aBuffer[k] >> 3));
+				//   }else if(!strcmp(page_start02,BmpName)){
+				// 	// p_PAGE.pic_page5[i*240+j] = (uint16_t)(((aBuffer[k + 2] >> 3) << 11 ) | ((aBuffer[k + 1] >> 2) << 5) | (aBuffer[k] >> 3));
+				//   }else {
+				// 	// pic_page6[i*240+j] = (uint16_t)(((aBuffer[k + 2] >> 3) << 11 ) | ((aBuffer[k + 1] >> 2) << 5) | (aBuffer[k] >> 3));
+				//   }
+				
+				//  ÌÖåÏä§Ìä∏ Ï∂îÌõÑ ÏßÑÌñâ
+				//   if(!strcmp(page_main,BmpName)){			
+				// 	pic_page1[i*240+j] = (uint16_t)(((aBuffer[k + 2] >> 3) << 11 ) | ((aBuffer[k + 1] >> 2) << 5) | (aBuffer[k] >> 3));
+				//   }else if(!strcmp(page_cat2,BmpName)){
+				// 	pic_page2[i*240+j] = (uint16_t)(((aBuffer[k + 2] >> 3) << 11 ) | ((aBuffer[k + 1] >> 2) << 5) | (aBuffer[k] >> 3));
+				//   }else if(!strcmp(page_start01,BmpName)){
+				// 	pic_page3[i*240+j] = (uint16_t)(((aBuffer[k + 2] >> 3) << 11 ) | ((aBuffer[k + 1] >> 2) << 5) | (aBuffer[k] >> 3));
+				//   }else if(!strcmp(page_result,BmpName)){
+				// 	pic_page4[i*240+j] = (uint16_t)(((aBuffer[k + 2] >> 3) << 11 ) | ((aBuffer[k + 1] >> 2) << 5) | (aBuffer[k] >> 3));
+				//   }else if(!strcmp(page_start02,BmpName)){
+				// 	// p_PAGE.pic_page5[i*240+j] = (uint16_t)(((aBuffer[k + 2] >> 3) << 11 ) | ((aBuffer[k + 1] >> 2) << 5) | (aBuffer[k] >> 3));
+				//   }else {
+				// 	// pic_page6[i*240+j] = (uint16_t)(((aBuffer[k + 2] >> 3) << 11 ) | ((aBuffer[k + 1] >> 2) << 5) | (aBuffer[k] >> 3));
+				//   }
+				  
 			  }
 		}
+		// /* ÌéòÏù¥ÏßÄÍ∞Ä ÎßûÏúºÎ©¥ Î≥µÏÇ¨*/
+		// if(!strcmp(page_cat2,BmpName)){			
+		// 	memcpy(pic_page1,pic,sizeof(uint16_t)*76800);
+		// }
 		/* LCD_SetCursor if dont write here ,it will display innormal*/
-		LCD_SetCursor(0, 0);
+		LCD_SetCursor(Xpoz, Ypoz);
 		DEV_Digital_Write(LCD_DC_PIN, 1);
 		DEV_Digital_Write(LCD_CS_PIN, 0);
-		spi_set_baudrate(SPI_PORT,30*1000*1000);
+		spi_set_baudrate(SPI_PORT,250*1000*1000);
 		for(index=0;index<76800;index++){
 			  SPI4W_Write_Byte((pic[index] >> 8) & 0xFF);
 			  SPI4W_Write_Byte(pic[index] & 0xFF);
 		}
 		DEV_Digital_Write(LCD_CS_PIN, 1);
     }else{
-		LCD_SetCursor(0, 0);
-		spi_set_baudrate(SPI_PORT,30*1000*1000);
-		for(i = 0; i < height; i ++){
-			  f_read(&file1, aBuffer, 360, (UINT *)&BytesRead);
-			  f_read(&file1, aBuffer+360, 360, (UINT *)&BytesRead);
-			  f_read(&file1, aBuffer+720, 360, (UINT *)&BytesRead);
-			  f_read(&file1, aBuffer+1080, 360, (UINT *)&BytesRead);
-			  for (j = 0; j < width; j ++) {
-				  k = j * 3;
-				  pic[j] = (uint16_t)(((aBuffer[k+2]>>3)<<11)|((aBuffer[k+1]>>2)<<5)|(aBuffer[k]>>3));
-				  LCD_WriteData(pic[j]);
-			  }
-		}
+		
+			  
+		
     }
     f_close(&file1);
-    spi_set_baudrate(SPI_PORT,3000*1000);
-	Driver_Delay_ms(1500);
+    // spi_set_baudrate(SPI_PORT,3000*1000);
+	//Driver_Delay_ms(100);
     return 1;
 }
 
+// ÎÇ¥Î∂Ä ÌîåÎûòÏãú Ï†ÄÏû• ÌÖåÏä§Ìä∏ ÏßÑÌñâ„Öé Ìï¥ÏïºÌï®
+// static void P_main(void){
+// 			uint32_t index=0;
+// 	DEV_Digital_Write(LCD_DC_PIN, 1);
+// 	DEV_Digital_Write(LCD_CS_PIN, 0);
+
+// 	for(index=0;index<76800;index++){
+// 		SPI4W_Write_Byte((pic_page1[index] >> 8) & 0xFF);
+// 		SPI4W_Write_Byte(pic_page1[index] & 0xFF);
+// 	}
+
+// 	DEV_Digital_Write(LCD_CS_PIN, 1);
+
+// }
+
+// static void P_cat(void){
+// 	uint32_t index=0;
+// 	DEV_Digital_Write(LCD_DC_PIN, 1);
+// 	DEV_Digital_Write(LCD_CS_PIN, 0);
+
+// 	for(index=0;index<76800;index++){
+// 		SPI4W_Write_Byte((pic_page2[index] >> 8) & 0xFF);
+// 		SPI4W_Write_Byte(pic_page2[index] & 0xFF);
+// 	}
+
+// 	DEV_Digital_Write(LCD_CS_PIN, 1);
+
+// }
+
+// void Storage_showfile(uint8_t Xpoz, uint16_t Ypoz,uint8_t Page_num)
+// {
+		
+		
+// 		LCD_SetCursor(Xpoz, Ypoz);
+// 		if(Page_num==1){
+// 			P_main();
+	
+// 		}else if(Page_num==2)
+// 		{
+// 			// P_cat();
+// 		}
+		
+// }
 
 /**
 * @brief  Copy file BmpName1 to BmpName2 

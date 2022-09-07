@@ -5,6 +5,12 @@
         "dev_config.h": "c",
         "lcd_gui.h": "c",
         "lcd_fonts.h": "c",
-        "han.h": "c"
+        "han.h": "c",
+        "main.h": "c",
+        "bsp.h": "c",
+        "uart.h": "c",
+        "s_uart.h": "c",
+        "stdlib.h": "c",
+        "string.h": "c"
     }
 }
